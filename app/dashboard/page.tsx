@@ -10,11 +10,12 @@ import {
   Typography,
   Space,
   Statistic,
+  message,
 } from 'antd';
-import { 
-  PieChart, 
-  Pie, 
-  Cell, 
+import {
+  PieChart,
+  Pie,
+  Cell,
   ResponsiveContainer,
   Legend,
   Tooltip
@@ -24,6 +25,7 @@ import { useAuthContext } from '../../src/components/auth/AuthProvider';
 import ProtectedRoute from '../../src/components/auth/ProtectedRoute';
 import Header from '../../src/components/layout/Header';
 import { useThemeUtils } from '../../src/theme/hooks';
+import { AddDebtModal, DebtFormData } from '../../src/components/debt';
 
 const { Title, Text } = Typography;
 
@@ -38,7 +40,7 @@ const mockDebts = [
     icon: <CarOutlined />
   },
   {
-    id: '2', 
+    id: '2',
     name: 'บัตรเครดิต SCB',
     amount: 20000,
     type: 'credit',
@@ -57,6 +59,7 @@ const DashboardPage: React.FC = () => {
   const { user } = useAuthContext();
   const { t } = useTranslation('common');
   const { colors, spacing } = useThemeUtils();
+  const [isAddDebtModalOpen, setIsAddDebtModalOpen] = useState(false);
 
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat('th-TH').format(amount);
@@ -74,8 +77,25 @@ const DashboardPage: React.FC = () => {
   };
 
   const handleAddDebt = () => {
-    console.log('Add new debt');
-    // TODO: Navigate to add debt form or open modal
+    setIsAddDebtModalOpen(true);
+  };
+
+  const handleAddDebtSubmit = async (debtData: DebtFormData) => {
+    try {
+      // TODO: Implement actual API call to save debt
+      console.log('Saving debt:', debtData);
+      
+      // Simulate API call
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      message.success('เพิ่มหนี้สำเร็จแล้ว!');
+      setIsAddDebtModalOpen(false);
+      
+      // TODO: Refresh debt list
+    } catch (error) {
+      console.error('Error adding debt:', error);
+      message.error('เกิดข้อผิดพลาดในการเพิ่มหนี้');
+    }
   };
 
   const handleViewDetails = (debtId: string) => {
@@ -98,7 +118,7 @@ const DashboardPage: React.FC = () => {
         }}>
 
           {/* Dashboard Header with Add Debt Button */}
-          <div 
+          <div
             className="dashboard-header"
             style={{
               display: 'flex',
@@ -109,10 +129,10 @@ const DashboardPage: React.FC = () => {
               borderBottom: `2px solid ${colors.colors.primary[100]}`
             }}>
             <div>
-              <Title 
-                level={2} 
-                style={{ 
-                  margin: 0, 
+              <Title
+                level={2}
+                style={{
+                  margin: 0,
                   color: colors.colors.primary[600],
                   fontSize: '28px',
                   fontWeight: 'bold'
@@ -120,8 +140,8 @@ const DashboardPage: React.FC = () => {
               >
                 ภาพรวมหนี้ของคุณ
               </Title>
-              <Text style={{ 
-                color: colors.colors.neutral[500], 
+              <Text style={{
+                color: colors.colors.neutral[500],
                 fontSize: '16px',
                 marginTop: '4px',
                 display: 'block'
@@ -129,7 +149,7 @@ const DashboardPage: React.FC = () => {
                 จัดการและติดตามหนี้สินของคุณ
               </Text>
             </div>
-            <Button 
+            <Button
               type="primary"
               size="large"
               icon={<PlusOutlined />}
@@ -162,7 +182,7 @@ const DashboardPage: React.FC = () => {
             </Button>
           </div>
 
-        <style jsx>{`
+          <style jsx>{`
           @keyframes fadeIn {
             from {
               opacity: 0;
@@ -233,7 +253,7 @@ const DashboardPage: React.FC = () => {
             }
           }
         `}</style>
-          
+
           {/* Summary Cards */}
           <Row gutter={[16, 16]} style={{ marginBottom: spacing.spacing[6] }}>
             <Col xs={24} sm={8}>
@@ -266,7 +286,7 @@ const DashboardPage: React.FC = () => {
                       {t('dashboard.baht')}
                     </span>
                   }
-                  valueStyle={{ 
+                  valueStyle={{
                     color: 'white',
                     fontSize: '28px',
                     fontWeight: 'bold'
@@ -305,7 +325,7 @@ const DashboardPage: React.FC = () => {
                       {t('dashboard.baht')}
                     </span>
                   }
-                  valueStyle={{ 
+                  valueStyle={{
                     color: 'white',
                     fontSize: '28px',
                     fontWeight: 'bold'
@@ -344,7 +364,7 @@ const DashboardPage: React.FC = () => {
                       {t('dashboard.baht')}
                     </span>
                   }
-                  valueStyle={{ 
+                  valueStyle={{
                     color: 'white',
                     fontSize: '28px',
                     fontWeight: 'bold'
@@ -356,13 +376,13 @@ const DashboardPage: React.FC = () => {
           </Row>
 
           {/* Pie Chart Section */}
-          <Card 
+          <Card
             title={
               <Title level={3} style={{ margin: 0, color: colors.colors.primary[600] }}>
                 {t('dashboard.debtSummary')}
               </Title>
             }
-            style={{ 
+            style={{
               marginBottom: spacing.spacing[6],
               borderRadius: '12px',
               boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
@@ -377,7 +397,7 @@ const DashboardPage: React.FC = () => {
                     cx="50%"
                     cy="50%"
                     labelLine={false}
-                    label={({name, value}: any) => `${name}: ${formatCurrency(value)}฿`}
+                    label={({ name, value }: any) => `${name}: ${formatCurrency(value)}฿`}
                     outerRadius={100}
                     innerRadius={40}
                     fill="#8884d8"
@@ -389,7 +409,7 @@ const DashboardPage: React.FC = () => {
                       <Cell key={`cell-${index}`} fill={entry.color} />
                     ))}
                   </Pie>
-                  <Tooltip 
+                  <Tooltip
                     formatter={(value: any) => [`${formatCurrency(Number(value))}฿`, 'จำนวน']}
                     contentStyle={{
                       backgroundColor: 'rgba(255, 255, 255, 0.95)',
@@ -398,7 +418,7 @@ const DashboardPage: React.FC = () => {
                       boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)'
                     }}
                   />
-                  <Legend 
+                  <Legend
                     wrapperStyle={{
                       paddingTop: '20px'
                     }}
@@ -426,7 +446,7 @@ const DashboardPage: React.FC = () => {
                 <Card
                   key={debt.id}
                   size="small"
-                  style={{ 
+                  style={{
                     border: `2px solid ${debt.color}`,
                     borderRadius: '12px',
                     background: `linear-gradient(135deg, ${debt.color}10 0%, ${debt.color}05 100%)`,
@@ -444,7 +464,7 @@ const DashboardPage: React.FC = () => {
                     e.currentTarget.style.boxShadow = `0 2px 8px ${debt.color}30`;
                   }}
                 >
-                  <div 
+                  <div
                     className="debt-card-content"
                     style={{
                       display: 'flex',
@@ -469,19 +489,19 @@ const DashboardPage: React.FC = () => {
                         {debt.icon}
                       </div>
                       <div>
-                        <Text strong style={{ 
-                          fontSize: '18px', 
+                        <Text strong style={{
+                          fontSize: '18px',
                           display: 'block',
                           marginBottom: '4px',
                           color: colors.colors.neutral[800]
                         }}>
                           {debt.name}
                         </Text>
-                        <Text 
+                        <Text
                           className="debt-amount"
-                          style={{ 
-                            fontSize: '22px', 
-                            color: debt.color, 
+                          style={{
+                            fontSize: '22px',
+                            color: debt.color,
                             fontWeight: 'bold'
                           }}
                         >
@@ -490,7 +510,7 @@ const DashboardPage: React.FC = () => {
                       </div>
                     </div>
                     <div className="debt-actions" style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
-                      <Button 
+                      <Button
                         type="primary"
                         size="large"
                         className="pay-button"
@@ -508,7 +528,7 @@ const DashboardPage: React.FC = () => {
                       >
                         [จ่าย]
                       </Button>
-                      <Button 
+                      <Button
                         type="default"
                         size="large"
                         className="details-button"
@@ -533,6 +553,13 @@ const DashboardPage: React.FC = () => {
             </Space>
           </Card>
         </div>
+
+        {/* Add Debt Modal */}
+        <AddDebtModal
+          isOpen={isAddDebtModalOpen}
+          onClose={() => setIsAddDebtModalOpen(false)}
+          onSubmit={handleAddDebtSubmit}
+        />
       </div>
     </ProtectedRoute>
   );
