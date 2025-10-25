@@ -19,6 +19,7 @@ import {
   Legend,
   Tooltip
 } from 'recharts';
+import { PlusOutlined, CreditCardOutlined, CarOutlined } from '@ant-design/icons';
 import { useAuthContext } from '../../src/components/auth/AuthProvider';
 import ProtectedRoute from '../../src/components/auth/ProtectedRoute';
 import Header from '../../src/components/layout/Header';
@@ -30,17 +31,19 @@ const { Title, Text } = Typography;
 const mockDebts = [
   {
     id: '1',
-    name: 'Home Loan',
-    amount: 80000,
+    name: 'กู้รถยนต์',
+    amount: 60000,
     type: 'loan',
-    color: '#ff6b6b'
+    color: '#ff6b6b',
+    icon: <CarOutlined />
   },
   {
     id: '2', 
     name: 'บัตรเครดิต SCB',
     amount: 20000,
     type: 'credit',
-    color: '#4ecdc4'
+    color: '#4ecdc4',
+    icon: <CreditCardOutlined />
   }
 ];
 
@@ -70,6 +73,16 @@ const DashboardPage: React.FC = () => {
     // TODO: Implement payment logic
   };
 
+  const handleAddDebt = () => {
+    console.log('Add new debt');
+    // TODO: Navigate to add debt form or open modal
+  };
+
+  const handleViewDetails = (debtId: string) => {
+    console.log('View debt details:', debtId);
+    // TODO: Navigate to debt details page
+  };
+
   return (
     <ProtectedRoute>
       <div style={{ minHeight: '100vh', backgroundColor: colors.bg.base }}>
@@ -83,6 +96,71 @@ const DashboardPage: React.FC = () => {
           padding: `0 ${spacing.spacing[4]}px ${spacing.spacing[8]}px`,
           animation: 'fadeIn 0.6s ease-in-out'
         }}>
+
+          {/* Dashboard Header with Add Debt Button */}
+          <div 
+            className="dashboard-header"
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              marginBottom: spacing.spacing[6],
+              padding: `${spacing.spacing[4]}px 0`,
+              borderBottom: `2px solid ${colors.colors.primary[100]}`
+            }}>
+            <div>
+              <Title 
+                level={2} 
+                style={{ 
+                  margin: 0, 
+                  color: colors.colors.primary[600],
+                  fontSize: '28px',
+                  fontWeight: 'bold'
+                }}
+              >
+                ภาพรวมหนี้ของคุณ
+              </Title>
+              <Text style={{ 
+                color: colors.colors.neutral[500], 
+                fontSize: '16px',
+                marginTop: '4px',
+                display: 'block'
+              }}>
+                จัดการและติดตามหนี้สินของคุณ
+              </Text>
+            </div>
+            <Button 
+              type="primary"
+              size="large"
+              icon={<PlusOutlined />}
+              onClick={handleAddDebt}
+              className="add-debt-button"
+              style={{
+                backgroundColor: colors.colors.primary[500],
+                borderColor: colors.colors.primary[500],
+                borderRadius: '12px',
+                fontWeight: 'bold',
+                fontSize: '16px',
+                height: '48px',
+                padding: '0 24px',
+                boxShadow: `0 4px 12px ${colors.colors.primary[200]}`,
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                transition: 'all 0.3s ease-in-out'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = 'translateY(-2px)';
+                e.currentTarget.style.boxShadow = `0 6px 16px ${colors.colors.primary[300]}`;
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = 'translateY(0)';
+                e.currentTarget.style.boxShadow = `0 4px 12px ${colors.colors.primary[200]}`;
+              }}
+            >
+              เพิ่มหนี้
+            </Button>
+          </div>
 
         <style jsx>{`
           @keyframes fadeIn {
@@ -108,18 +186,50 @@ const DashboardPage: React.FC = () => {
           }
 
           @media (max-width: 768px) {
+            .dashboard-header {
+              flex-direction: column !important;
+              align-items: flex-start !important;
+              gap: 16px !important;
+            }
+            
+            .add-debt-button {
+              width: 100% !important;
+              justify-content: center !important;
+            }
+            
             .debt-card-content {
               flex-direction: column;
               text-align: center;
-              gap: 12px !important;
+              gap: 16px !important;
+            }
+            
+            .debt-info {
+              align-items: center !important;
             }
             
             .debt-amount {
               font-size: 18px !important;
             }
             
-            .pay-button {
-              width: 100%;
+            .debt-actions {
+              width: 100% !important;
+              justify-content: center !important;
+            }
+            
+            .pay-button, .details-button {
+              flex: 1;
+              min-width: 120px;
+            }
+          }
+
+          @media (max-width: 480px) {
+            .debt-actions {
+              flex-direction: column !important;
+              width: 100% !important;
+            }
+            
+            .pay-button, .details-button {
+              width: 100% !important;
             }
           }
         `}</style>
@@ -298,11 +408,11 @@ const DashboardPage: React.FC = () => {
             </div>
           </Card>
 
-          {/* Recent Debts Section */}
+          {/* Debt List Section */}
           <Card
             title={
               <Title level={3} style={{ margin: 0, color: colors.colors.primary[600] }}>
-                {t('dashboard.recentDebts')}:
+                รายการหนี้:
               </Title>
             }
             style={{
@@ -320,9 +430,19 @@ const DashboardPage: React.FC = () => {
                     border: `2px solid ${debt.color}`,
                     borderRadius: '12px',
                     background: `linear-gradient(135deg, ${debt.color}10 0%, ${debt.color}05 100%)`,
-                    boxShadow: `0 2px 8px ${debt.color}30`
+                    boxShadow: `0 2px 8px ${debt.color}30`,
+                    transition: 'all 0.3s ease-in-out'
                   }}
-                  bodyStyle={{ padding: '16px 20px' }}
+                  bodyStyle={{ padding: '20px 24px' }}
+                  hoverable
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = 'translateY(-2px)';
+                    e.currentTarget.style.boxShadow = `0 4px 16px ${debt.color}40`;
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = 'translateY(0)';
+                    e.currentTarget.style.boxShadow = `0 2px 8px ${debt.color}30`;
+                  }}
                 >
                   <div 
                     className="debt-card-content"
@@ -334,25 +454,33 @@ const DashboardPage: React.FC = () => {
                       gap: '16px'
                     }}
                   >
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                    <div className="debt-info" style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
                       <div style={{
-                        width: '8px',
-                        height: '40px',
+                        width: '50px',
+                        height: '50px',
                         backgroundColor: debt.color,
-                        borderRadius: '4px'
-                      }} />
+                        borderRadius: '12px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        fontSize: '20px',
+                        color: 'white'
+                      }}>
+                        {debt.icon}
+                      </div>
                       <div>
                         <Text strong style={{ 
                           fontSize: '18px', 
                           display: 'block',
-                          marginBottom: '4px'
+                          marginBottom: '4px',
+                          color: colors.colors.neutral[800]
                         }}>
                           {debt.name}
                         </Text>
                         <Text 
                           className="debt-amount"
                           style={{ 
-                            fontSize: '20px', 
+                            fontSize: '22px', 
                             color: debt.color, 
                             fontWeight: 'bold'
                           }}
@@ -361,23 +489,44 @@ const DashboardPage: React.FC = () => {
                         </Text>
                       </div>
                     </div>
-                    <Button 
-                      type="primary"
-                      size="large"
-                      className="pay-button"
-                      onClick={() => handlePayNow(debt.id)}
-                      style={{
-                        backgroundColor: debt.color,
-                        borderColor: debt.color,
-                        fontWeight: 'bold',
-                        borderRadius: '8px',
-                        boxShadow: `0 2px 4px ${debt.color}40`,
-                        padding: '8px 24px',
-                        height: 'auto'
-                      }}
-                    >
-                      [{t('dashboard.payNow')}]
-                    </Button>
+                    <div className="debt-actions" style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
+                      <Button 
+                        type="primary"
+                        size="large"
+                        className="pay-button"
+                        onClick={() => handlePayNow(debt.id)}
+                        style={{
+                          backgroundColor: debt.color,
+                          borderColor: debt.color,
+                          fontWeight: 'bold',
+                          borderRadius: '8px',
+                          boxShadow: `0 2px 4px ${debt.color}40`,
+                          padding: '8px 20px',
+                          height: 'auto',
+                          fontSize: '14px'
+                        }}
+                      >
+                        [จ่าย]
+                      </Button>
+                      <Button 
+                        type="default"
+                        size="large"
+                        className="details-button"
+                        onClick={() => handleViewDetails(debt.id)}
+                        style={{
+                          borderColor: debt.color,
+                          color: debt.color,
+                          fontWeight: 'bold',
+                          borderRadius: '8px',
+                          padding: '8px 16px',
+                          height: 'auto',
+                          fontSize: '14px',
+                          background: 'white'
+                        }}
+                      >
+                        [ดูรายละเอียด]
+                      </Button>
+                    </div>
                   </div>
                 </Card>
               ))}
