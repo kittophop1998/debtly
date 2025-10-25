@@ -1,0 +1,156 @@
+import type { Metadata } from "next";
+import { Geist, Geist_Mono } from "next/font/google";
+import "./globals.css";
+import "../src/theme/globals.css";
+import { AppProvider } from "../src/store/index";
+import { AuthProvider } from "../src/components/auth/AuthProvider";
+import { ThemeProvider } from "../src/theme/ThemeProvider";
+import { GoogleAnalytics } from "../src/components/analytics";
+import I18nProvider from "../src/lib/I18nProvider";
+
+const geistSans = Geist({
+  variable: "--font-geist-sans",
+  subsets: ["latin"],
+});
+
+const geistMono = Geist_Mono({
+  variable: "--font-geist-mono",
+  subsets: ["latin"],
+});
+
+export const metadata: Metadata = {
+  title: "Debtly - ค้นหากิจกรรม เชื่อมต่อเพื่อนใหม่",
+  description: "ค้นหาและเข้าร่วมกิจกรรมที่น่าสนใจ พบปะเพื่อนใหม่ที่มีความสนใจเหมือนกัน สร้างประสบการณ์ดีๆ ร่วมกัน | Debtly",
+  keywords: [
+    "กิจกรรม",
+    "เพื่อน",
+    "พบปะ",
+    "สังสรรค์",
+    "ชุมชน",
+    "activities",
+    "meet friends",
+    "community",
+    "events",
+    "social",
+    "ประเทศไทย",
+    "thailand"
+  ],
+  authors: [{ name: "Debtly Team" }],
+  creator: "Debtly",
+  publisher: "Debtly",
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
+  openGraph: {
+    type: 'website',
+    locale: 'th_TH',
+    alternateLocale: 'en_US',
+    url: 'https://debtly.app',
+    title: 'Debtly - ค้นหากิจกรรม เชื่อมต่อเพื่อนใหม่',
+    description: 'ค้นหาและเข้าร่วมกิจกรรมที่น่าสนใจ พบปะเพื่อนใหม่ที่มีความสนใจเหมือนกัน สร้างประสบการณ์ดีๆ ร่วมกัน',
+    siteName: 'Debtly',
+    images: [
+      {
+        url: '/og-image.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'Debtly - ค้นหากิจกรรม เชื่อมต่อเพื่อนใหม่',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Debtly - ค้นหากิจกรรม เชื่อมต่อเพื่อนใหม่',
+    description: 'ค้นหาและเข้าร่วมกิจกรรมที่น่าสนใจ พบปะเพื่อนใหม่ที่มีความสนใจเหมือนกัน',
+    images: ['/twitter-image.jpg'],
+    creator: '@debtly',
+  },
+  verification: {
+    google: 'your-google-verification-code',
+  },
+  category: 'social networking',
+  alternates: {
+    canonical: 'https://debtly.app',
+    languages: {
+      'th-TH': 'https://debtly.app',
+      'en-US': 'https://debtly.app/en',
+    },
+  },
+};
+
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  return (
+    <html lang="th">
+      <head>
+        <meta charSet="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="theme-color" content="#4f46e5" />
+        <meta name="format-detection" content="telephone=no" />
+        <link rel="icon" href="/favicon.ico" />
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+        <link rel="manifest" href="/manifest.json" />
+        <link rel="canonical" href="https://wegowhere.app" />
+
+        {/* Structured Data */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "WebApplication",
+              "name": "WeGoWhere",
+              "description": "ค้นหาและเข้าร่วมกิจกรรมที่น่าสนใจ พบปะเพื่อนใหม่ที่มีความสนใจเหมือนกัน",
+              "url": "https://wegowhere.app",
+              "applicationCategory": "SocialNetworkingApplication",
+              "operatingSystem": "Web",
+              "offers": {
+                "@type": "Offer",
+                "price": "0",
+                "priceCurrency": "THB"
+              },
+              "author": {
+                "@type": "Organization",
+                "name": "WeGoWhere Team"
+              },
+              "aggregateRating": {
+                "@type": "AggregateRating",
+                "ratingValue": "4.8",
+                "ratingCount": "100"
+              }
+            })
+          }}
+        />
+
+        {/* Google Analytics */}
+        {process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID && (
+          <GoogleAnalytics measurementId={process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID} />
+        )}
+      </head>
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+      >
+        <I18nProvider>
+          <ThemeProvider defaultTheme="light" defaultLocale="th">
+            <AppProvider>
+              <AuthProvider>
+                {children}
+              </AuthProvider>
+            </AppProvider>
+          </ThemeProvider>
+        </I18nProvider>
+      </body>
+    </html>
+  );
+}

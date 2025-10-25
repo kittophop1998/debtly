@@ -1,0 +1,254 @@
+/* Dashboard Responsive Styles */
+
+/* Mobile First Approach */
+.dashboard-container {
+  padding: 8px;
+}
+
+.dashboard-grid {
+  gap: 12px;
+}
+
+.dashboard-card {
+  padding: 12px;
+  border-radius: 8px;
+}
+
+.dashboard-card-title {
+  font-size: 14px;
+  line-height: 1.3;
+}
+
+.dashboard-card-description {
+  font-size: 11px;
+  line-height: 1.4;
+}
+
+.dashboard-card-icon {
+  width: 48px;
+  height: 48px;
+  font-size: 18px;
+}
+
+.dashboard-button {
+  font-size: 12px;
+  height: 32px;
+  padding: 0 12px;
+}
+
+.welcome-title {
+  font-size: 20px;
+  margin-bottom: 8px;
+}
+
+.welcome-description {
+  font-size: 14px;
+  margin-bottom: 16px;
+}
+
+/* Tablet */
+@media (min-width: 576px) {
+  .dashboard-container {
+    padding: 16px;
+  }
+  
+  .dashboard-grid {
+    gap: 16px;
+  }
+  
+  .dashboard-card {
+    padding: 16px;
+  }
+  
+  .dashboard-card-title {
+    font-size: 15px;
+  }
+  
+  .dashboard-card-description {
+    font-size: 12px;
+  }
+  
+  .dashboard-card-icon {
+    width: 56px;
+    height: 56px;
+    font-size: 20px;
+  }
+  
+  .dashboard-button {
+    font-size: 13px;
+    height: 36px;
+    padding: 0 16px;
+  }
+  
+  .welcome-title {
+    font-size: 24px;
+    margin-bottom: 12px;
+  }
+  
+  .welcome-description {
+    font-size: 15px;
+    margin-bottom: 20px;
+  }
+}
+
+/* Desktop */
+@media (min-width: 768px) {
+  .dashboard-container {
+    padding: 24px;
+  }
+  
+  .dashboard-grid {
+    gap: 24px;
+  }
+  
+  .dashboard-card {
+    padding: 20px;
+  }
+  
+  .dashboard-card-title {
+    font-size: 16px;
+  }
+  
+  .dashboard-card-description {
+    font-size: 13px;
+  }
+  
+  .dashboard-card-icon {
+    width: 64px;
+    height: 64px;
+    font-size: 24px;
+  }
+  
+  .dashboard-button {
+    font-size: 14px;
+    height: 40px;
+    padding: 0 20px;
+  }
+  
+  .welcome-title {
+    font-size: 28px;
+    margin-bottom: 16px;
+  }
+  
+  .welcome-description {
+    font-size: 16px;
+    margin-bottom: 24px;
+  }
+}
+
+/* Specific mobile size - 430x932 */
+@media (max-width: 430px) {
+  .dashboard-container {
+    padding: 4px;
+  }
+  
+  .header-title {
+    font-size: 18px !important;
+  }
+  
+  .dashboard-card {
+    padding: 8px;
+    margin-bottom: 8px;
+  }
+  
+  .dashboard-card-title {
+    font-size: 13px;
+  }
+  
+  .dashboard-card-description {
+    font-size: 10px;
+    line-height: 1.3;
+  }
+  
+  .dashboard-card-icon {
+    width: 40px;
+    height: 40px;
+    font-size: 16px;
+  }
+  
+  .dashboard-button {
+    font-size: 11px;
+    height: 28px;
+    padding: 0 8px;
+  }
+  
+  .welcome-title {
+    font-size: 18px;
+    margin-bottom: 6px;
+  }
+  
+  .welcome-description {
+    font-size: 12px;
+    margin-bottom: 12px;
+  }
+  
+  .empty-image {
+    font-size: 40px !important;
+  }
+  
+  .empty-title {
+    font-size: 14px !important;
+  }
+  
+  .empty-description {
+    font-size: 11px !important;
+  }
+  
+  .get-started-button {
+    font-size: 12px !important;
+    height: 32px !important;
+    padding: 0 12px !important;
+  }
+}
+
+/* Very small screens */
+@media (max-width: 360px) {
+  .dashboard-container {
+    padding: 2px;
+  }
+  
+  .dashboard-grid {
+    gap: 8px;
+  }
+  
+  .dashboard-card {
+    padding: 6px;
+  }
+  
+  .dashboard-card-title {
+    font-size: 12px;
+  }
+  
+  .dashboard-card-description {
+    font-size: 9px;
+  }
+  
+  .dashboard-card-icon {
+    width: 36px;
+    height: 36px;
+    font-size: 14px;
+  }
+  
+  .dashboard-button {
+    font-size: 10px;
+    height: 26px;
+    padding: 0 6px;
+  }
+}
+
+/* Landscape orientation adjustments */
+@media (orientation: landscape) and (max-height: 600px) {
+  .welcome-section {
+    margin-bottom: 16px !important;
+  }
+  
+  .dashboard-card {
+    padding: 8px;
+  }
+  
+  .dashboard-card-icon {
+    width: 40px;
+    height: 40px;
+    margin-bottom: 8px !important;
+  }
+}
