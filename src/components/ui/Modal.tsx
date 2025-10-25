@@ -1,6 +1,6 @@
 // Reusable Modal component
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 
 interface ModalProps {
@@ -20,17 +20,23 @@ const Modal: React.FC<ModalProps> = ({
   size = 'md',
   showCloseButton = true,
 }) => {
+  const [isVisible, setIsVisible] = useState(false);
+
   useEffect(() => {
     if (isOpen) {
+      setIsVisible(true);
       document.body.style.overflow = 'hidden';
     } else {
+      const timer = setTimeout(() => setIsVisible(false), 300);
       document.body.style.overflow = 'unset';
+      return () => clearTimeout(timer);
     }
 
     return () => {
       document.body.style.overflow = 'unset';
     };
   }, [isOpen]);
+
 
   useEffect(() => {
     const handleEscape = (event: KeyboardEvent) => {
@@ -48,7 +54,7 @@ const Modal: React.FC<ModalProps> = ({
     };
   }, [isOpen, onClose]);
 
-  if (!isOpen) return null;
+  if (!isVisible) return null;
 
   const sizeClasses = {
     sm: 'max-w-md',
@@ -60,15 +66,18 @@ const Modal: React.FC<ModalProps> = ({
   const modalContent = (
     <div className="fixed inset-0 z-50 overflow-y-auto">
       <div className="flex items-center justify-center min-h-screen px-4 py-6">
-        {/* Overlay */}
+        {/* Overlay - พื้นหลังเบลอและมืดเล็กน้อย */}
         <div
-          className="fixed inset-0 bg-white bg-opacity-30 backdrop-blur-sm transition-all duration-300"
+          className={`fixed inset-0 backdrop-blur-sm bg-black transition-opacity duration-300 ${isOpen ? 'bg-black/30' : 'bg-black/0'}`}
           onClick={onClose}
         />
-        
+
         {/* Modal */}
         <div
-          className={`relative bg-white rounded-xl shadow-2xl w-full ${sizeClasses[size]} transform transition-all`}
+          className={`relative bg-white rounded-xl shadow-2xl w-full ${sizeClasses[size]} transform transition-all duration-300 ${isOpen
+            ? 'scale-100 opacity-100 translate-y-0'
+            : 'scale-95 opacity-0 translate-y-8'
+            }`}
           onClick={(e) => e.stopPropagation()}
         >
           {/* Header */}
@@ -101,7 +110,7 @@ const Modal: React.FC<ModalProps> = ({
               )}
             </div>
           )}
-          
+
           {/* Content */}
           <div className="p-6">
             {children}
