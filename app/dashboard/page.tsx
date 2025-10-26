@@ -25,7 +25,7 @@ import { useAuthContext } from '../../src/components/auth/AuthProvider';
 import ProtectedRoute from '../../src/components/auth/ProtectedRoute';
 import Header from '../../src/components/layout/Header';
 import { useThemeUtils } from '../../src/theme/hooks';
-import { AddDebtModal, DebtFormData } from '../../src/components/debt';
+import { AddDebtModal, DebtFormData, PaymentModal } from '../../src/components/debt';
 
 const { Title, Text } = Typography;
 
@@ -60,6 +60,8 @@ const DashboardPage: React.FC = () => {
   const { t } = useTranslation('common');
   const { colors, spacing } = useThemeUtils();
   const [isAddDebtModalOpen, setIsAddDebtModalOpen] = useState(false);
+  const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
+  const [selectedDebt, setSelectedDebt] = useState<any>(null);
 
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat('th-TH').format(amount);
@@ -72,8 +74,11 @@ const DashboardPage: React.FC = () => {
   }));
 
   const handlePayNow = (debtId: string) => {
-    console.log('Pay debt:', debtId);
-    // TODO: Implement payment logic
+    const debt = mockDebts.find(d => d.id === debtId);
+    if (debt) {
+      setSelectedDebt(debt);
+      setIsPaymentModalOpen(true);
+    }
   };
 
   const handleAddDebt = () => {
@@ -95,6 +100,24 @@ const DashboardPage: React.FC = () => {
     } catch (error) {
       console.error('Error adding debt:', error);
       message.error('เกิดข้อผิดพลาดในการเพิ่มหนี้');
+    }
+  };
+
+  const handlePaymentSubmit = async (amount: number) => {
+    try {
+      // TODO: Implement actual API call to process payment
+      console.log('Processing payment:', { debtId: selectedDebt?.id, amount });
+      
+      // Simulate API call
+      await new Promise(resolve => setTimeout(resolve, 1500));
+      
+      // TODO: Update debt amount in state/database
+      // For now, just log the transaction
+      console.log(`Payment of ${amount}฿ processed for debt: ${selectedDebt?.name}`);
+      
+    } catch (error) {
+      console.error('Payment processing error:', error);
+      throw error;
     }
   };
 
@@ -526,7 +549,7 @@ const DashboardPage: React.FC = () => {
                           fontSize: '14px'
                         }}
                       >
-                        [จ่าย]
+                        จ่าย
                       </Button>
                       <Button
                         type="default"
@@ -544,7 +567,7 @@ const DashboardPage: React.FC = () => {
                           background: 'white'
                         }}
                       >
-                        [ดูรายละเอียด]
+                        ดูรายละเอียด
                       </Button>
                     </div>
                   </div>
@@ -560,6 +583,20 @@ const DashboardPage: React.FC = () => {
           onClose={() => setIsAddDebtModalOpen(false)}
           onSubmit={handleAddDebtSubmit}
         />
+
+        {/* Payment Modal */}
+        {selectedDebt && (
+          <PaymentModal
+            isOpen={isPaymentModalOpen}
+            onClose={() => {
+              setIsPaymentModalOpen(false);
+              setSelectedDebt(null);
+            }}
+            debtName={selectedDebt.name}
+            remainingAmount={selectedDebt.amount}
+            onPaymentSubmit={handlePaymentSubmit}
+          />
+        )}
       </div>
     </ProtectedRoute>
   );
