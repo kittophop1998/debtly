@@ -89,13 +89,13 @@ const DashboardPage: React.FC = () => {
     try {
       // TODO: Implement actual API call to save debt
       console.log('Saving debt:', debtData);
-      
+
       // Simulate API call
       await new Promise(resolve => setTimeout(resolve, 1000));
-      
+
       message.success('เพิ่มหนี้สำเร็จแล้ว!');
       setIsAddDebtModalOpen(false);
-      
+
       // TODO: Refresh debt list
     } catch (error) {
       console.error('Error adding debt:', error);
@@ -107,14 +107,14 @@ const DashboardPage: React.FC = () => {
     try {
       // TODO: Implement actual API call to process payment
       console.log('Processing payment:', { debtId: selectedDebt?.id, amount });
-      
+
       // Simulate API call
       await new Promise(resolve => setTimeout(resolve, 1500));
-      
+
       // TODO: Update debt amount in state/database
       // For now, just log the transaction
       console.log(`Payment of ${amount}฿ processed for debt: ${selectedDebt?.name}`);
-      
+
     } catch (error) {
       console.error('Payment processing error:', error);
       throw error;

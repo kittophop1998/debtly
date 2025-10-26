@@ -1,7 +1,12 @@
 // Add Debt Modal component
 
 import React, { useState } from 'react';
-import { Button, Input, Modal } from '../ui';
+import { Modal, Input, Button, Select, DatePicker, Typography, message } from 'antd';
+import { PlusOutlined } from '@ant-design/icons';
+import dayjs from 'dayjs';
+
+const { Title, Text } = Typography;
+const { Option } = Select;
 
 interface AddDebtModalProps {
     isOpen: boolean;
@@ -92,9 +97,7 @@ const AddDebtModal: React.FC<AddDebtModalProps> = ({
         return Object.keys(newErrors).length === 0;
     };
 
-    const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
-
+    const handleSubmit = async () => {
         if (!validateForm()) {
             return;
         }
@@ -103,9 +106,11 @@ const AddDebtModal: React.FC<AddDebtModalProps> = ({
 
         try {
             await onSubmit(formData);
+            message.success('เพิ่มหนี้สำเร็จแล้ว!');
             handleClose();
         } catch (error) {
             console.error('Error submitting debt:', error);
+            message.error('เกิดข้อผิดพลาดในการเพิ่มหนี้');
         } finally {
             setIsSubmitting(false);
         }
@@ -124,123 +129,181 @@ const AddDebtModal: React.FC<AddDebtModalProps> = ({
         onClose();
     };
 
-    // Format today's date for min attribute
-    const today = new Date().toISOString().split('T')[0];
+    const formatCurrency = (amount: number) => {
+        return new Intl.NumberFormat('th-TH').format(amount);
+    };
 
     return (
         <Modal
-            isOpen={isOpen}
-            onClose={handleClose}
-            title="เพิ่มหนี้ใหม่"
-            size="md"
+            title={
+                <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                    <PlusOutlined style={{ fontSize: '20px', color: '#1890ff' }} />
+                    <span>เพิ่มหนี้ใหม่</span>
+                </div>
+            }
+            open={isOpen}
+            onCancel={handleClose}
+            footer={null}
+            width={600}
+            centered
+            destroyOnClose
+            styles={{
+                body: { padding: '24px' },
+                header: { borderBottom: '1px solid #f0f0f0', marginBottom: '24px' }
+            }}
         >
-            <form onSubmit={handleSubmit} className="space-y-6">
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
                 {/* ชื่อหนี้ */}
                 <div>
+                    <Text strong style={{ fontSize: '16px', color: '#262626', display: 'block', marginBottom: '8px' }}>
+                        ชื่อหนี้ <span style={{ color: '#ff4d4f' }}>*</span>
+                    </Text>
                     <Input
-                        label="ชื่อหนี้"
-                        type="text"
+                        size="large"
+                        placeholder="เช่น บัตรเครดิต SCB, กู้รถยนต์"
                         value={formData.name}
                         onChange={(e) => handleInputChange('name', e.target.value)}
-                        placeholder="เช่น บัตรเครดิต SCB, กู้รถยนต์"
-                        error={errors.name}
+                        status={errors.name ? 'error' : ''}
+                        style={{ borderRadius: '8px' }}
                     />
+                    {errors.name && (
+                        <Text type="danger" style={{ fontSize: '14px', marginTop: '4px', display: 'block' }}>
+                            {errors.name}
+                        </Text>
+                    )}
                 </div>
 
                 {/* เจ้าหนี้ */}
                 <div>
+                    <Text strong style={{ fontSize: '16px', color: '#262626', display: 'block', marginBottom: '8px' }}>
+                        เจ้าหนี้ <span style={{ color: '#ff4d4f' }}>*</span>
+                    </Text>
                     <Input
-                        label="เจ้าหนี้"
-                        type="text"
+                        size="large"
+                        placeholder="เช่น ธนาคารไทยพาณิชย์, บริษัท ABC"
                         value={formData.creditor}
                         onChange={(e) => handleInputChange('creditor', e.target.value)}
-                        placeholder="เช่น ธนาคารไทยพาณิชย์, บริษัท ABC"
-                        error={errors.creditor}
+                        status={errors.creditor ? 'error' : ''}
+                        style={{ borderRadius: '8px' }}
                     />
+                    {errors.creditor && (
+                        <Text type="danger" style={{ fontSize: '14px', marginTop: '4px', display: 'block' }}>
+                            {errors.creditor}
+                        </Text>
+                    )}
                 </div>
 
                 {/* ยอดทั้งหมด */}
                 <div>
+                    <Text strong style={{ fontSize: '16px', color: '#262626', display: 'block', marginBottom: '8px' }}>
+                        ยอดทั้งหมด <span style={{ color: '#ff4d4f' }}>*</span>
+                    </Text>
                     <Input
-                        label="ยอดทั้งหมด (บาท)"
+                        size="large"
                         type="number"
+                        placeholder="0"
                         value={formData.totalAmount || ''}
                         onChange={(e) => handleInputChange('totalAmount', parseFloat(e.target.value) || 0)}
-                        placeholder="0"
-                        min="0"
-                        step="0.01"
-                        error={errors.totalAmount}
+                        suffix="฿"
+                        min={0}
+                        step={0.01}
+                        status={errors.totalAmount ? 'error' : ''}
+                        style={{ borderRadius: '8px' }}
                     />
+                    {errors.totalAmount && (
+                        <Text type="danger" style={{ fontSize: '14px', marginTop: '4px', display: 'block' }}>
+                            {errors.totalAmount}
+                        </Text>
+                    )}
+                    {formData.totalAmount > 0 && (
+                        <Text style={{ fontSize: '14px', marginTop: '4px', display: 'block', color: '#52c41a' }}>
+                            จำนวน: {formatCurrency(formData.totalAmount)} บาท
+                        </Text>
+                    )}
                 </div>
 
                 {/* วันครบกำหนด */}
                 <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                        วันครบกำหนด
-                    </label>
-                    <input
-                        type="date"
-                        value={formData.dueDate}
-                        onChange={(e) => handleInputChange('dueDate', e.target.value)}
-                        min={today}
-                        className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors duration-200 ${errors.dueDate ? 'border-red-500 focus:ring-red-500' : 'border-gray-300'
-                            }`}
+                    <Text strong style={{ fontSize: '16px', color: '#262626', display: 'block', marginBottom: '8px' }}>
+                        วันครบกำหนด <span style={{ color: '#ff4d4f' }}>*</span>
+                    </Text>
+                    <DatePicker
+                        size="large"
+                        placeholder="เลือกวันครบกำหนด"
+                        value={formData.dueDate ? dayjs(formData.dueDate) : null}
+                        onChange={(date) => handleInputChange('dueDate', date ? date.format('YYYY-MM-DD') : '')}
+                        disabledDate={(current) => current && current < dayjs().startOf('day')}
+                        format="DD/MM/YYYY"
+                        status={errors.dueDate ? 'error' : ''}
+                        style={{ width: '100%', borderRadius: '8px' }}
                     />
                     {errors.dueDate && (
-                        <p className="mt-1 text-sm text-red-600">
+                        <Text type="danger" style={{ fontSize: '14px', marginTop: '4px', display: 'block' }}>
                             {errors.dueDate}
-                        </p>
+                        </Text>
                     )}
                 </div>
 
                 {/* หมวดหมู่ */}
                 <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                        หมวดหมู่
-                    </label>
-                    <select
-                        value={formData.category}
-                        onChange={(e) => handleInputChange('category', e.target.value)}
-                        className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors duration-200 ${errors.category ? 'border-red-500 focus:ring-red-500' : 'border-gray-300'
-                            }`}
+                    <Text strong style={{ fontSize: '16px', color: '#262626', display: 'block', marginBottom: '8px' }}>
+                        หมวดหมู่ <span style={{ color: '#ff4d4f' }}>*</span>
+                    </Text>
+                    <Select
+                        size="large"
+                        placeholder="เลือกหมวดหมู่"
+                        value={formData.category || undefined}
+                        onChange={(value) => handleInputChange('category', value)}
+                        status={errors.category ? 'error' : ''}
+                        style={{ width: '100%', borderRadius: '8px' }}
                     >
-                        <option value="">-- เลือกหมวดหมู่ --</option>
                         {debtCategories.map((category) => (
-                            <option key={category.value} value={category.value}>
+                            <Option key={category.value} value={category.value}>
                                 {category.label}
-                            </option>
+                            </Option>
                         ))}
-                    </select>
+                    </Select>
                     {errors.category && (
-                        <p className="mt-1 text-sm text-red-600">
+                        <Text type="danger" style={{ fontSize: '14px', marginTop: '4px', display: 'block' }}>
                             {errors.category}
-                        </p>
+                        </Text>
                     )}
                 </div>
 
                 {/* ปุ่มบันทึก */}
-                <div className="flex gap-3 pt-4">
+                <div style={{ display: 'flex', gap: '16px', marginTop: '32px' }}>
                     <Button
-                        type="button"
-                        variant="outline"
-                        size="lg"
+                        size="large"
                         onClick={handleClose}
                         disabled={isSubmitting}
-                        className="flex-1"
+                        style={{
+                            flex: 1,
+                            height: '48px',
+                            fontSize: '16px',
+                            borderRadius: '8px'
+                        }}
                     >
                         ยกเลิก
                     </Button>
                     <Button
-                        type="submit"
-                        variant="primary"
-                        size="lg"
+                        type="primary"
+                        size="large"
                         loading={isSubmitting}
-                        className="flex-1"
+                        onClick={handleSubmit}
+                        style={{
+                            flex: 1,
+                            height: '48px',
+                            fontSize: '16px',
+                            fontWeight: 'bold',
+                            borderRadius: '8px',
+                            backgroundColor: '#1890ff',
+                            borderColor: '#1890ff'
+                        }}
                     >
-                        บันทึก
+                        {isSubmitting ? 'กำลังบันทึก...' : 'บันทึก'}
                     </Button>
                 </div>
-            </form>
+            </div>
         </Modal>
     );
 };

@@ -36,7 +36,7 @@ const PaymentModal: React.FC<PaymentModalProps> = ({
 
   const handleSubmit = async () => {
     const amount = parseFloat(paymentAmount);
-    
+
     if (!paymentAmount || amount <= 0) {
       message.error('กรุณากรอกจำนวนเงินที่ถูกต้อง');
       return;
@@ -94,7 +94,7 @@ const PaymentModal: React.FC<PaymentModalProps> = ({
           <Title level={4} style={{ margin: '0 0 16px 0', color: '#262626' }}>
             {debtName}
           </Title>
-          
+
           <Text strong style={{ fontSize: '16px', color: '#595959', display: 'block', marginBottom: '8px' }}>
             ยอดคงเหลือ:
           </Text>
@@ -140,10 +140,10 @@ const PaymentModal: React.FC<PaymentModalProps> = ({
 
         {/* Payment Summary */}
         {paymentAmount && parseFloat(paymentAmount) > 0 && parseFloat(paymentAmount) <= remainingAmount && (
-          <div style={{ 
-            marginBottom: '24px', 
-            padding: '16px', 
-            backgroundColor: '#f6ffed', 
+          <div style={{
+            marginBottom: '24px',
+            padding: '16px',
+            backgroundColor: '#f6ffed',
             border: '1px solid #b7eb8f',
             borderRadius: '8px'
           }}>
