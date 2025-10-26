@@ -81,10 +81,10 @@ export default function LoginPage() {
                     <div className="text-center mb-8">
                         <div className="mb-4">
                             <h1 className="text-4xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent mb-2">
-                                Go Mate
+                                Debtly
                             </h1>
                             <p className="text-2xl text-gray-700 font-medium">
-                                มาสนุกกัน
+                                จัดการหนี้แสนสนุก
                             </p>
                         </div>
                         <div className="h-1 w-24 bg-gradient-to-r from-indigo-500 to-purple-500 mx-auto rounded-full mb-2"></div>

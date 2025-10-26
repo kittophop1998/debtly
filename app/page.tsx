@@ -47,18 +47,18 @@ export default function Home() {
       <main className="flex min-h-screen w-full max-w-4xl flex-col items-center justify-center py-16 px-8 text-center">
         <div className="mb-8">
           <h1 className="text-6xl font-bold bg-gradient-to-r from-teal-600 to-sky-600 bg-clip-text text-transparent mb-4">
-            WeGoWhere
+            Debtly
           </h1>
           <p className="text-2xl text-slate-700 font-medium mb-2">
-            มาสนุกกัน ไปด้วยกัน
+            จัดการหนี้แสนสนุก
           </p>
           <div className="h-1 w-32 bg-gradient-to-r from-teal-500 to-sky-500 mx-auto rounded-full"></div>
         </div>
 
         <div className="mb-12">
           <p className="text-xl text-slate-600 max-w-2xl leading-relaxed">
-            แพลตฟอร์มที่ปลอดภัยและน่าเชื่อถือ สำหรับการค้นหาและเข้าร่วมกิจกรรมที่น่าสนใจ 
-            เชื่อมต่อกับเพื่อนใหม่ และสร้างประสบการณ์ดีๆ ร่วมกัน
+            แพลตฟอร์มจัดการหนี้สินที่ง่าย ปลอดภัย และสนุก ติดตามรายรับรายจ่าย 
+            วางแผนการเงิน และจัดการหนี้อย่างเป็นระบบ
           </p>
         </div>
 
@@ -80,21 +80,21 @@ export default function Home() {
 
         <div className="mt-16 grid grid-cols-1 gap-8 md:grid-cols-3 max-w-4xl">
           <div className="bg-white p-6 rounded-xl shadow-lg border border-teal-100 hover:border-teal-200 transition-all duration-200 hover:shadow-xl">
-            <div className="text-4xl mb-4">🛡️</div>
-            <h3 className="text-xl font-semibold text-slate-800 mb-2">ปลอดภัย</h3>
-            <p className="text-slate-600">ระบบตรวจสอบและการันตีความปลอดภัย</p>
+            <div className="text-4xl mb-4">�</div>
+            <h3 className="text-xl font-semibold text-slate-800 mb-2">จัดการหนี้</h3>
+            <p className="text-slate-600">ติดตามและจัดการหนี้สินได้อย่างเป็นระบบ</p>
           </div>
           
           <div className="bg-white p-6 rounded-xl shadow-lg border border-sky-100 hover:border-sky-200 transition-all duration-200 hover:shadow-xl">
-            <div className="text-4xl mb-4">🤝</div>
-            <h3 className="text-xl font-semibold text-slate-800 mb-2">น่าเชื่อถือ</h3>
-            <p className="text-slate-600">เชื่อมต่อกับคนที่มีความสนใจเหมือนกัน</p>
+            <div className="text-4xl mb-4">📊</div>
+            <h3 className="text-xl font-semibold text-slate-800 mb-2">วิเคราะห์เงิน</h3>
+            <p className="text-slate-600">รายงานและสถิติการเงินที่เข้าใจง่าย</p>
           </div>
           
           <div className="bg-white p-6 rounded-xl shadow-lg border border-emerald-100 hover:border-emerald-200 transition-all duration-200 hover:shadow-xl">
-            <div className="text-4xl mb-4">�</div>
-            <h3 className="text-xl font-semibold text-slate-800 mb-2">ประสบการณ์ดี</h3>
-            <p className="text-slate-600">สร้างความทรงจำดีๆ อย่างมั่นใจ</p>
+            <div className="text-4xl mb-4">🎯</div>
+            <h3 className="text-xl font-semibold text-slate-800 mb-2">วางแผนการเงิน</h3>
+            <p className="text-slate-600">ตั้งเป้าหมายและแผนการชำระหนี้</p>
           </div>
         </div>
       </main>

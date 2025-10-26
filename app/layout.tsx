@@ -19,19 +19,19 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Debtly - ค้นหากิจกรรม เชื่อมต่อเพื่อนใหม่",
-  description: "ค้นหาและเข้าร่วมกิจกรรมที่น่าสนใจ พบปะเพื่อนใหม่ที่มีความสนใจเหมือนกัน สร้างประสบการณ์ดีๆ ร่วมกัน | Debtly",
+  title: "Debtly - จัดการหนี้แสนสนุก",
+  description: "แอปพลิเคชันจัดการหนี้สินที่ทำให้การจัดการเงินและหนี้เป็นเรื่องง่ายและสนุก ติดตามรายรับรายจ่าย วางแผนการเงิน | Debtly",
   keywords: [
-    "กิจกรรม",
-    "เพื่อน",
-    "พบปะ",
-    "สังสรรค์",
-    "ชุมชน",
-    "activities",
-    "meet friends",
-    "community",
-    "events",
-    "social",
+    "จัดการหนี้",
+    "หนี้สิน",
+    "การเงิน",
+    "วางแผนการเงิน",
+    "รายรับรายจ่าย",
+    "debt management",
+    "financial planning",
+    "expense tracking",
+    "budgeting",
+    "money management",
     "ประเทศไทย",
     "thailand"
   ],
@@ -54,29 +54,29 @@ export const metadata: Metadata = {
     locale: 'th_TH',
     alternateLocale: 'en_US',
     url: 'https://debtly.app',
-    title: 'Debtly - ค้นหากิจกรรม เชื่อมต่อเพื่อนใหม่',
-    description: 'ค้นหาและเข้าร่วมกิจกรรมที่น่าสนใจ พบปะเพื่อนใหม่ที่มีความสนใจเหมือนกัน สร้างประสบการณ์ดีๆ ร่วมกัน',
+    title: 'Debtly - จัดการหนี้แสนสนุก',
+    description: 'แอปพลิเคชันจัดการหนี้สินที่ทำให้การจัดการเงินและหนี้เป็นเรื่องง่ายและสนุก ติดตามรายรับรายจ่าย วางแผนการเงิน',
     siteName: 'Debtly',
     images: [
       {
         url: '/og-image.jpg',
         width: 1200,
         height: 630,
-        alt: 'Debtly - ค้นหากิจกรรม เชื่อมต่อเพื่อนใหม่',
+        alt: 'Debtly - จัดการหนี้แสนสนุก',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Debtly - ค้นหากิจกรรม เชื่อมต่อเพื่อนใหม่',
-    description: 'ค้นหาและเข้าร่วมกิจกรรมที่น่าสนใจ พบปะเพื่อนใหม่ที่มีความสนใจเหมือนกัน',
+    title: 'Debtly - จัดการหนี้แสนสนุก',
+    description: 'แอปพลิเคชันจัดการหนี้สินที่ทำให้การจัดการเงินและหนี้เป็นเรื่องง่ายและสนุก',
     images: ['/twitter-image.jpg'],
     creator: '@debtly',
   },
   verification: {
     google: 'your-google-verification-code',
   },
-  category: 'social networking',
+  category: 'finance',
   alternates: {
     canonical: 'https://debtly.app',
     languages: {
@@ -101,7 +101,7 @@ export default function RootLayout({
         <link rel="icon" href="/favicon.ico" />
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
         <link rel="manifest" href="/manifest.json" />
-        <link rel="canonical" href="https://wegowhere.app" />
+        <link rel="canonical" href="https://debtly.app" />
 
         {/* Structured Data */}
         <script
@@ -110,10 +110,10 @@ export default function RootLayout({
             __html: JSON.stringify({
               "@context": "https://schema.org",
               "@type": "WebApplication",
-              "name": "WeGoWhere",
-              "description": "ค้นหาและเข้าร่วมกิจกรรมที่น่าสนใจ พบปะเพื่อนใหม่ที่มีความสนใจเหมือนกัน",
-              "url": "https://wegowhere.app",
-              "applicationCategory": "SocialNetworkingApplication",
+              "name": "Debtly",
+              "description": "แอปพลิเคชันจัดการหนี้สินที่ทำให้การจัดการเงินและหนี้เป็นเรื่องง่ายและสนุก",
+              "url": "https://debtly.app",
+              "applicationCategory": "FinanceApplication",
               "operatingSystem": "Web",
               "offers": {
                 "@type": "Offer",
@@ -122,7 +122,7 @@ export default function RootLayout({
               },
               "author": {
                 "@type": "Organization",
-                "name": "WeGoWhere Team"
+                "name": "Debtly Team"
               },
               "aggregateRating": {
                 "@type": "AggregateRating",

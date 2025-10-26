@@ -23,7 +23,7 @@ export const generateSEOMetadata = (config: SEOConfig): Metadata => {
     noFollow = false,
   } = config
 
-  const fullTitle = title.includes('WeGoWhere') ? title : `${title} | WeGoWhere`
+  const fullTitle = title.includes('Debtly') ? title : `${title} | Debtly`
 
   return {
     title: fullTitle,
@@ -57,10 +57,10 @@ export const generateSEOMetadata = (config: SEOConfig): Metadata => {
     openGraph: {
       type: 'website',
       locale: 'th_TH',
-      url: canonical || 'https://wegowhere.app',
+      url: canonical || 'https://debtly.app',
       title: fullTitle,
       description,
-      siteName: 'WeGoWhere',
+      siteName: 'Debtly',
       images: [
         {
           url: ogImage,
@@ -75,38 +75,38 @@ export const generateSEOMetadata = (config: SEOConfig): Metadata => {
       title: fullTitle,
       description,
       images: [twitterImage],
-      creator: '@wegowhere',
+      creator: '@debtly',
     },
     alternates: {
-      canonical: canonical || 'https://wegowhere.app',
+      canonical: canonical || 'https://debtly.app',
     },
   }
 }
 
 export const defaultSEOConfig: SEOConfig = {
-  title: 'WeGoWhere - ค้นหากิจกรรม เชื่อมต่อเพื่อนใหม่',
-  description: 'ค้นหาและเข้าร่วมกิจกรรมที่น่าสนใจ พบปะเพื่อนใหม่ที่มีความสนใจเหมือนกัน สร้างประสบการณ์ดีๆ ร่วมกัน',
+  title: 'Debtly - จัดการหนี้แสนสนุก',
+  description: 'แอปพลิเคชันจัดการหนี้สินที่ทำให้การจัดการเงินและหนี้เป็นเรื่องง่ายและสนุก ติดตามรายรับรายจ่าย วางแผนการเงิน',
 }
 
 // Predefined metadata for common pages
 export const loginSEOConfig: SEOConfig = {
   title: 'เข้าสู่ระบบ',
-  description: 'เข้าสู่ระบบ WeGoWhere เพื่อเข้าร่วมกิจกรรมและพบปะเพื่อนใหม่',
-  canonical: 'https://wegowhere.app/login',
+  description: 'เข้าสู่ระบบ Debtly เพื่อเริ่มจัดการหนี้และวางแผนการเงินของคุณ',
+  canonical: 'https://debtly.app/login',
   noIndex: true,
 }
 
 export const registerSEOConfig: SEOConfig = {
   title: 'สมัครสมาชิก',
-  description: 'สมัครสมาชิก WeGoWhere ฟรี เพื่อเริ่มต้นค้นหากิจกรรมและพบปะเพื่อนใหม่',
-  canonical: 'https://wegowhere.app/register',
-  keywords: ['สมัครสมาชิก', 'register', 'join', 'เข้าร่วม'],
+  description: 'สมัครสมาชิk Debtly ฟรี เพื่อเริ่มต้นจัดการหนี้และวางแผนการเงินที่ดีขึ้น',
+  canonical: 'https://debtly.app/register',
+  keywords: ['สมัครสมาชิก', 'register', 'join', 'เข้าร่วม', 'จัดการหนี้'],
 }
 
 export const dashboardSEOConfig: SEOConfig = {
   title: 'แดชบอร์ด',
-  description: 'จัดการกิจกรรมและเชื่อมต่อกับเพื่อนใหม่ใน WeGoWhere',
-  canonical: 'https://wegowhere.app/dashboard',
+  description: 'จัดการหนี้สิน ติดตามรายรับรายจ่าย และวางแผนการเงินใน Debtly',
+  canonical: 'https://debtly.app/dashboard',
   noIndex: true,
   noFollow: true,
 }

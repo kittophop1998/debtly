@@ -144,7 +144,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   // Load persisted state from localStorage
   useEffect(() => {
     try {
-      const persistedState = localStorage.getItem('wegowhere-storage');
+      const persistedState = localStorage.getItem('debtly-storage');
       if (persistedState) {
         const parsed = JSON.parse(persistedState);
         dispatch({ type: 'LOAD_PERSISTED_STATE', payload: parsed });
@@ -161,7 +161,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         theme: state.theme,
         searchHistory: state.searchHistory
       };
-      localStorage.setItem('wegowhere-storage', JSON.stringify(stateToStore));
+      localStorage.setItem('debtly-storage', JSON.stringify(stateToStore));
     } catch (error) {
       console.error('Failed to persist state:', error);
     }

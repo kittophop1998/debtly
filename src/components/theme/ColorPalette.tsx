@@ -73,7 +73,7 @@ export const ColorPalette: React.FC = () => {
     <div style={{ padding: 24, backgroundColor: '#f8fafc', minHeight: '100vh' }}>
       <div style={{ maxWidth: 1200, margin: '0 auto' }}>
         <Title level={2} style={{ textAlign: 'center', marginBottom: 48, color: '#0f172a' }}>
-          WeGoWhere Color Palette
+          Debtly Color Palette
         </Title>
         
         <Text 

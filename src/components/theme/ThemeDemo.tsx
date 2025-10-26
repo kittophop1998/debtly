@@ -83,7 +83,7 @@ const ThemeDemo: React.FC = () => {
                             </Link>
                         </Space>
                         <Title level={2} style={{ margin: 0 }}>
-                            {locale === 'th' ? 'ระบบ Theme ของ WeGoWhere' : 'WeGoWhere Theme System'}
+                            {locale === 'th' ? 'ระบบ Theme ของ Debtly' : 'Debtly Theme System'}
                         </Title>
                         <Text type="secondary">
                             {locale === 'th'

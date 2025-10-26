@@ -35,8 +35,8 @@ export const useTheme = (): ThemeContextType => {
 };
 
 // Local storage keys
-const THEME_STORAGE_KEY = 'wegowhere-theme-mode';
-const LOCALE_STORAGE_KEY = 'wegowhere-locale';
+const THEME_STORAGE_KEY = 'debtly-theme-mode';
+const LOCALE_STORAGE_KEY = 'debtly-locale';
 
 // Theme Provider Component
 export const ThemeProvider: React.FC<ThemeProviderProps> = ({

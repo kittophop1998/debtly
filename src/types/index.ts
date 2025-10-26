@@ -1,4 +1,4 @@
-// Core types for WeGoWhere application
+// Core types for Debtly application
 
 export interface User {
   id: string;

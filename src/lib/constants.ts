@@ -1,10 +1,10 @@
 // Constants used throughout the application
 
 export const APP_CONFIG = {
-  NAME: 'WeGoWhere',
+  NAME: 'Debtly',
   VERSION: '1.0.0',
-  DESCRIPTION: 'Join activities and connect with others',
-  SUPPORT_EMAIL: 'support@wegowhere.com'
+  DESCRIPTION: 'จัดการหนี้แสนสนุก',
+  SUPPORT_EMAIL: 'support@debtly.com'
 } as const;
 
 export const STORAGE_KEYS = {
