@@ -71,7 +71,7 @@ export default function LoginPage() {
 
     return (
         <PublicRoute redirectTo="/dashboard">
-            <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 px-4">
+            <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-teal-50 via-cyan-50 to-sky-100 px-4">
                 <Card
                     variant="bordered"
                     className="w-full max-w-md mx-auto shadow-2xl border-4 border-indigo-200 bg-gradient-to-b from-white to-blue-50"
@@ -80,15 +80,15 @@ export default function LoginPage() {
                     {/* Title Section */}
                     <div className="text-center mb-8">
                         <div className="mb-4">
-                            <h1 className="text-4xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent mb-2">
+                            <h1 className="text-4xl font-bold bg-gradient-to-r from-teal-600 to-sky-600 bg-clip-text text-transparent mb-2">
                                 Debtly
                             </h1>
                             <p className="text-2xl text-gray-700 font-medium">
                                 จัดการหนี้แสนสนุก
                             </p>
                         </div>
-                        <div className="h-1 w-24 bg-gradient-to-r from-indigo-500 to-purple-500 mx-auto rounded-full mb-2"></div>
-                        <div className="h-0.5 w-16 bg-gradient-to-r from-purple-400 to-pink-400 mx-auto rounded-full"></div>
+                        <div className="h-1 w-24 bg-gradient-to-r from-teal-600 to-sky-600 mx-auto rounded-full mb-2"></div>
+                        <div className="h-0.5 w-16 bg-gradient-to-r from-teal-400 to-sky-600 mx-auto rounded-full"></div>
                     </div>
 
                     {/* Login Form */}
@@ -125,7 +125,7 @@ export default function LoginPage() {
 
                         <Button
                             type="submit"
-                            className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-semibold py-3 px-6 rounded-xl border-2 border-transparent hover:border-indigo-300 transform hover:scale-105 transition-all duration-200 disabled:transform-none disabled:opacity-50"
+                            className="w-full bg-gradient-to-r from-teal-600 to-sky-600 hover:from-indigo-700 hover:to-purple-700 text-white font-semibold py-3 px-6 rounded-xl border-2 border-transparent hover:border-indigo-300 transform hover:scale-105 transition-all duration-200 disabled:transform-none disabled:opacity-50"
                             disabled={isLoading || isSubmitting}
                         >
                             {isLoading || isSubmitting ? (
