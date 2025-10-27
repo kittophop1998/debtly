@@ -3,7 +3,7 @@
 import React, { createContext, useContext, useEffect, useLayoutEffect, useState, ReactNode, useCallback } from 'react';
 import { ConfigProvider, theme as antdTheme, Switch } from 'antd';
 import { ThemeConfig } from 'antd';
-import { themes, ThemeMode } from './index';
+import { themes, ThemeMode } from '@/theme';
 import thTH from 'antd/locale/th_TH';
 import enUS from 'antd/locale/en_US';
 

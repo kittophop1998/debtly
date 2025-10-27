@@ -3,7 +3,7 @@
 import React, { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuthContext } from './AuthProvider';
-import { LoadingSpinner } from '../ui';
+import { LoadingSpinner } from '@/components/ui';
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
@@ -18,6 +18,14 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
 }) => {
   const { isAuthenticated, user, isLoading } = useAuthContext();
   const router = useRouter();
+
+  const hasRequiredRole = (user: { username: string; role?: string }, role: string): boolean => {
+    // สำหรับ demo ให้ admin เข้าได้ทุก role
+    if (user.username === 'admin') return true;
+    
+    // ในความเป็นจริงจะตรวจสอบจาก user.roles หรือ user.permissions
+    return user.role === role;
+  };
 
   useEffect(() => {
     if (!isLoading) {
@@ -34,14 +42,6 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
       }
     }
   }, [isAuthenticated, user, isLoading, router, redirectTo, requiredRole]);
-
-  const hasRequiredRole = (user: any, role: string): boolean => {
-    // สำหรับ demo ให้ admin เข้าได้ทุก role
-    if (user.username === 'admin') return true;
-    
-    // ในความเป็นจริงจะตรวจสอบจาก user.roles หรือ user.permissions
-    return user.role === role;
-  };
 
   // แสดง loading ขณะตรวจสอบ auth
   if (isLoading) {

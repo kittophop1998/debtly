@@ -5,8 +5,8 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { Button, Input, Card } from '../../src/components/ui';
-import { useAuthContext } from '../../src/components/auth/AuthProvider';
-import PublicRoute from '../../src/components/auth/PublicRoute';
+import { useAuthContext } from '../../src/contexts';
+import { PublicRoute } from '../../src/contexts';
 
 interface LoginFormData {
     username: string;

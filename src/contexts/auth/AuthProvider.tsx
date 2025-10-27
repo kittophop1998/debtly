@@ -2,7 +2,6 @@
 
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { LoadingSpinner } from '../ui';
 
 interface User {
   id: string;

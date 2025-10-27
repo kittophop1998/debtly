@@ -34,8 +34,8 @@ import {
     EnvironmentOutlined,
 } from '@ant-design/icons';
 import type { UploadProps } from 'antd';
-import { useAuthContext } from '../../../src/components/auth/AuthProvider';
-import ProtectedRoute from '../../../src/components/auth/ProtectedRoute';
+import { useAuthContext } from '../../../src/contexts';
+import { ProtectedRoute } from '../../../src/contexts';
 import { useThemeUtils } from '../../../src/theme/hooks';
 import Header from '../../../src/components/layout/Header';
 import { useTranslation } from 'react-i18next';

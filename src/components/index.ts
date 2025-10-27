@@ -7,10 +7,7 @@ export * from './ui';
 export { default as Navbar } from './layout/Navbar';
 export { default as Header } from './layout/Header';
 
-// Auth Components
-export { AuthProvider, useAuthContext } from './auth/AuthProvider';
-export { default as ProtectedRoute } from './auth/ProtectedRoute';
-export { default as PublicRoute } from './auth/PublicRoute';
+// Auth Components are now in contexts
 
 // Activity Components
 export { default as ActivityCard } from './activities/ActivityCard';

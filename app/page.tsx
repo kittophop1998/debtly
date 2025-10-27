@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { useAuthContext } from "../src/components/auth/AuthProvider";
+import { useAuthContext } from "../src/contexts";
 import { LoadingSpinner } from "../src/components/ui";
 
 export default function Home() {

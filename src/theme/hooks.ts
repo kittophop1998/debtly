@@ -1,6 +1,6 @@
 'use client';
 
-import { useTheme } from './ThemeProvider';
+import { useTheme } from '../contexts/theme';
 import { colors, typography, spacing, borderRadius, shadows, breakpoints } from './index';
 
 // Hook for accessing theme colors

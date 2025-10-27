@@ -1,8 +1,8 @@
-// src/lib/I18nProvider.tsx
+// I18nProvider.tsx
 "use client";
 
 import { ReactNode, useEffect } from "react";
-import i18n from "./i18n";
+import i18n from "@/lib/i18n";
 
 export default function I18nProvider({ children }: { children: ReactNode }) {
     useEffect(() => {

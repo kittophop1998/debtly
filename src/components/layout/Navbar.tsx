@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Button } from '../ui';
 import { useAuth } from '../../hooks';
-import { useSidebar } from '../../store';
+import { useSidebar } from '../../contexts';
 import { ROUTES } from '../../lib/constants';
 
 const Navbar: React.FC = () => {
