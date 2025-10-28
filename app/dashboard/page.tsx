@@ -160,7 +160,7 @@ const DashboardPage: React.FC = () => {
                   fontWeight: 'bold'
                 }}
               >
-                ภาพรวมหนี้ของคุณ
+                {t('dashboard.overview')}
               </Title>
               <Text style={{
                 color: colors.colors.neutral[500],
@@ -168,9 +168,10 @@ const DashboardPage: React.FC = () => {
                 marginTop: '4px',
                 display: 'block'
               }}>
-                จัดการและติดตามหนี้สินของคุณ
+                {t('dashboard.manageDebts')}
               </Text>
             </div>
+
             <Button
               type="primary"
               size="large"
@@ -200,7 +201,7 @@ const DashboardPage: React.FC = () => {
                 e.currentTarget.style.boxShadow = `0 4px 12px ${colors.colors.primary[200]}`;
               }}
             >
-              เพิ่มหนี้
+              {t('dashboard.addDebt')}
             </Button>
           </div>
 
@@ -278,7 +279,7 @@ const DashboardPage: React.FC = () => {
 
           {/* Summary Cards */}
           <Row gutter={[16, 16]} style={{ marginBottom: spacing.spacing[6] }}>
-            <Col xs={24} sm={8}>
+            <Col xs={34} sm={8}>
               <Card
                 style={{
                   background: 'linear-gradient(135deg, #ff6b6b 0%, #ff8a80 100%)',
@@ -454,7 +455,7 @@ const DashboardPage: React.FC = () => {
           <Card
             title={
               <Title level={3} style={{ margin: 0, color: colors.colors.primary[600] }}>
-                รายการหนี้:
+                {t('dashboard.recentDebts')}:
               </Title>
             }
             style={{
@@ -548,7 +549,7 @@ const DashboardPage: React.FC = () => {
                           fontSize: '14px'
                         }}
                       >
-                        จ่าย
+                        {t('dashboard.payNow')}
                       </Button>
                       <Button
                         type="default"
@@ -566,7 +567,7 @@ const DashboardPage: React.FC = () => {
                           background: 'white'
                         }}
                       >
-                        ดูรายละเอียด
+                        {t('dashboard.viewDetails')}
                       </Button>
                     </div>
                   </div>
