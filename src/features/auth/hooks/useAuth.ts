@@ -2,8 +2,8 @@
 
 import { useState, useEffect } from 'react';
 import { authService } from '../services/auth';
-import { AuthState } from '../types/auth';
 import { LoginCredentials, RegisterData, User } from '@/types';
+import { AuthState } from '@/core/store';
 
 export const useAuth = () => {
   const [authState, setAuthState] = useState<AuthState>(() =>

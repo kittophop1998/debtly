@@ -59,7 +59,7 @@ export const handleApiError = (error: any): ApiError => {
   if (error instanceof ApiError) {
     return error;
   }
-  
+
   // Handle axios errors
   if (error.isAxiosError) {
     if (error.response) {
@@ -78,7 +78,7 @@ export const handleApiError = (error: any): ApiError => {
       return new ApiError(error.message || 'Request failed', 0, 'Request Error');
     }
   }
-  
+
   // Fallback for other types of errors
   return new ApiError(error.message || 'Unknown error', 0, 'Unknown Error');
 };

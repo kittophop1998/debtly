@@ -1,18 +1,7 @@
+import { User } from '@/features/auth/types/auth';
 import { create } from 'zustand';
 import { subscribeWithSelector } from 'zustand/middleware';
 import { devtools } from 'zustand/middleware';
-
-// Auth State Types
-export interface User {
-  id: string;
-  email: string;
-  username: string;
-  displayName: string;
-  avatar?: string;
-  bio?: string;
-  createdAt: string;
-  updatedAt: string;
-}
 
 export interface AuthState {
   user: User | null;
@@ -57,7 +46,7 @@ export const useAuthStore = create<AuthState & AuthActions>()(
           }
 
           const { user, token } = await response.json();
-          
+
           // Store token in localStorage
           localStorage.setItem('auth_token', token);
           localStorage.setItem('user_data', JSON.stringify(user));

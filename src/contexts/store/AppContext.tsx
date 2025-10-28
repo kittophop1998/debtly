@@ -3,7 +3,7 @@
 
 import React, { createContext, useContext, useReducer, useEffect } from 'react';
 import { User } from '@/types';
-import { AuthState } from '@/features/auth/types/auth';
+import { AuthState } from '@/core/store';
 
 // Types
 interface Notification {
@@ -57,7 +57,8 @@ const initialState: AppState = {
   auth: {
     user: null,
     isAuthenticated: false,
-    isLoading: false
+    isLoading: false,
+    token: null
   },
   theme: 'system',
   sidebarOpen: false,

@@ -1,7 +1,10 @@
-import { User } from "@/types";
-
-export interface AuthState {
-  user: User | null;
-  isAuthenticated: boolean;
-  isLoading: boolean;
+export interface User {
+  id: string;
+  email: string;
+  username: string;
+  displayName: string;
+  avatar?: string;
+  bio?: string;
+  createdAt: string;
+  updatedAt: string;
 }

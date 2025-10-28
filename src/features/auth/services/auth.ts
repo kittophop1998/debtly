@@ -1,8 +1,9 @@
 // Authentication Service
 
 import { ApiResponse, LoginCredentials, RegisterData, User } from '@/types';
-import { AuthState } from '../types/auth';
-import { API_CONFIG, BaseApiService } from '@/services';
+import { AuthState } from '@/core/store';
+import { BaseApiService } from '@/lib/api';
+import { API_CONFIG } from '@/lib/config';
 
 export class AuthService extends BaseApiService {
   private static instance: AuthService;
@@ -10,7 +11,8 @@ export class AuthService extends BaseApiService {
   private currentAuthState: AuthState = {
     user: null,
     isAuthenticated: false,
-    isLoading: false
+    isLoading: false,
+    token: null
   };
 
   constructor() {
@@ -28,7 +30,7 @@ export class AuthService extends BaseApiService {
   // Initialize auth state from localStorage
   private async initializeAuth(): Promise<void> {
     this.setAuthState({ ...this.currentAuthState, isLoading: true });
-    
+
     try {
       const token = localStorage.getItem('authToken');
       if (token) {
@@ -36,13 +38,15 @@ export class AuthService extends BaseApiService {
         this.setAuthState({
           user,
           isAuthenticated: true,
-          isLoading: false
+          isLoading: false,
+          token
         });
       } else {
         this.setAuthState({
           user: null,
           isAuthenticated: false,
-          isLoading: false
+          isLoading: false,
+          token: null
         });
       }
     } catch (error) {
@@ -75,7 +79,7 @@ export class AuthService extends BaseApiService {
   // Authentication methods
   public async login(credentials: LoginCredentials): Promise<User> {
     this.setAuthState({ ...this.currentAuthState, isLoading: true });
-    
+
     try {
       const response = await this.post<ApiResponse<{ user: User; token: string }>>(
         API_CONFIG.ENDPOINTS.AUTH.LOGIN,
@@ -85,11 +89,12 @@ export class AuthService extends BaseApiService {
       if (response.success && response.data) {
         const { user, token } = response.data;
         localStorage.setItem('authToken', token);
-        
+
         this.setAuthState({
           user,
           isAuthenticated: true,
-          isLoading: false
+          isLoading: false,
+          token
         });
 
         return user;
@@ -100,7 +105,8 @@ export class AuthService extends BaseApiService {
       this.setAuthState({
         user: null,
         isAuthenticated: false,
-        isLoading: false
+        isLoading: false,
+        token: null
       });
       throw error;
     }
@@ -108,7 +114,7 @@ export class AuthService extends BaseApiService {
 
   public async register(userData: RegisterData): Promise<User> {
     this.setAuthState({ ...this.currentAuthState, isLoading: true });
-    
+
     try {
       const response = await this.post<ApiResponse<{ user: User; token: string }>>(
         API_CONFIG.ENDPOINTS.AUTH.REGISTER,
@@ -118,11 +124,12 @@ export class AuthService extends BaseApiService {
       if (response.success && response.data) {
         const { user, token } = response.data;
         localStorage.setItem('authToken', token);
-        
+
         this.setAuthState({
           user,
           isAuthenticated: true,
-          isLoading: false
+          isLoading: false,
+          token
         });
 
         return user;
@@ -133,7 +140,8 @@ export class AuthService extends BaseApiService {
       this.setAuthState({
         user: null,
         isAuthenticated: false,
-        isLoading: false
+        isLoading: false,
+        token: null
       });
       throw error;
     }
@@ -149,7 +157,8 @@ export class AuthService extends BaseApiService {
       this.setAuthState({
         user: null,
         isAuthenticated: false,
-        isLoading: false
+        isLoading: false,
+        token: null
       });
     }
   }
