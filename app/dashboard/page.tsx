@@ -21,10 +21,9 @@ import {
   Tooltip
 } from 'recharts';
 import { PlusOutlined, CreditCardOutlined, CarOutlined } from '@ant-design/icons';
-import { useAuthContext } from '../../src/contexts';
 import { ProtectedRoute } from '../../src/contexts';
 import Header from '../../src/components/layout/Header';
-import { useThemeUtils } from '../../src/theme/hooks';
+import { useThemeColors, useThemeUtils } from '../../src/theme/hooks';
 import { AddDebtModal, DebtFormData, PaymentModal } from '../../src/components/debt';
 
 const { Title, Text } = Typography;
@@ -56,12 +55,12 @@ const mockSummary = {
 };
 
 const DashboardPage: React.FC = () => {
-  const { user } = useAuthContext();
   const { t } = useTranslation('common');
   const { colors, spacing } = useThemeUtils();
   const [isAddDebtModalOpen, setIsAddDebtModalOpen] = useState(false);
   const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
   const [selectedDebt, setSelectedDebt] = useState<any>(null);
+  const { text } = useThemeColors();
 
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat('th-TH').format(amount);
@@ -516,7 +515,7 @@ const DashboardPage: React.FC = () => {
                           fontSize: '18px',
                           display: 'block',
                           marginBottom: '4px',
-                          color: colors.colors.neutral[800]
+                          color: text.secondary
                         }}>
                           {debt.name}
                         </Text>
