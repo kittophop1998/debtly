@@ -1,14 +1,8 @@
 // Authentication Service
 
-import { BaseApiService } from './base';
-import { API_CONFIG } from './config';
-import { 
-  User, 
-  LoginCredentials, 
-  RegisterData, 
-  ApiResponse,
-  AuthState 
-} from '../types';
+import { ApiResponse, LoginCredentials, RegisterData, User } from '@/types';
+import { AuthState } from '../types/auth';
+import { API_CONFIG, BaseApiService } from '@/services';
 
 export class AuthService extends BaseApiService {
   private static instance: AuthService;

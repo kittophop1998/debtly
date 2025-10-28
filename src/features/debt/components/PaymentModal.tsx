@@ -1,7 +1,7 @@
 import React from 'react';
 import { Modal, InputNumber, Button, Typography, Form, message } from 'antd';
 import { CreditCardOutlined } from '@ant-design/icons';
-import { useThemeColors } from '../../theme/hooks';
+import { useThemeColors } from '@/theme/hooks';
 
 const { Title, Text } = Typography;
 

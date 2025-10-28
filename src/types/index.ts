@@ -128,12 +128,6 @@ export interface RegisterData {
   displayName: string;
 }
 
-export interface AuthState {
-  user: User | null;
-  isAuthenticated: boolean;
-  isLoading: boolean;
-}
-
 // Activity form types
 export interface CreateActivityData {
   title: string;

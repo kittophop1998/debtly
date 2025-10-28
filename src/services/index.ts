@@ -12,4 +12,4 @@ export { userService, UserService } from './user';
 // Service types
 export type {
   AuthState
-} from '../types';
+} from '@/features/auth/types/auth';

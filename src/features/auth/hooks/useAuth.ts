@@ -1,22 +1,18 @@
 // Custom hook for authentication state management
 
 import { useState, useEffect } from 'react';
-import { authService } from '../services';
-import { AuthState, User, LoginCredentials, RegisterData } from '../types';
+import { authService } from '../services/auth';
+import { AuthState } from '../types/auth';
+import { LoginCredentials, RegisterData, User } from '@/types';
 
 export const useAuth = () => {
-  const [authState, setAuthState] = useState<AuthState>({
-    user: null,
-    isAuthenticated: false,
-    isLoading: true
-  });
+  const [authState, setAuthState] = useState<AuthState>(() =>
+    authService.getAuthState()
+  );
 
   useEffect(() => {
     // Subscribe to auth state changes
     const unsubscribe = authService.onAuthStateChange(setAuthState);
-    
-    // Get initial auth state
-    setAuthState(authService.getAuthState());
 
     return unsubscribe;
   }, []);
@@ -60,13 +56,13 @@ export const useAuth = () => {
     user: authState.user,
     isAuthenticated: authState.isAuthenticated,
     isLoading: authState.isLoading,
-    
+
     // Actions
     login,
     register,
     logout,
     updateProfile,
-    
+
     // Utilities
     userId: authState.user?.id || null,
     isLoggedIn: authState.isAuthenticated && !!authState.user

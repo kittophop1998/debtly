@@ -4,9 +4,9 @@ import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Button } from '../ui';
-import { useAuth } from '../../hooks';
 import { useSidebar } from '../../contexts';
 import { ROUTES } from '../../lib/constants';
+import { useAuth } from '@/features/auth';
 
 const Navbar: React.FC = () => {
   const pathname = usePathname();

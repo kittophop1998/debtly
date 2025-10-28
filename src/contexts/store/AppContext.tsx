@@ -2,7 +2,8 @@
 // React Context-based store for global app state
 
 import React, { createContext, useContext, useReducer, useEffect } from 'react';
-import { AuthState, User } from '@/types';
+import { User } from '@/types';
+import { AuthState } from '@/features/auth/types/auth';
 
 // Types
 interface Notification {

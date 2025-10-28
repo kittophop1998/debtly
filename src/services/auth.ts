@@ -7,8 +7,8 @@ import {
   LoginCredentials, 
   RegisterData, 
   ApiResponse,
-  AuthState 
 } from '../types';
+import { AuthState } from '@/features/auth/types/auth';
 
 export class AuthService extends BaseApiService {
   private static instance: AuthService;
