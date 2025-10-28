@@ -2,29 +2,23 @@
 
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import * as yup from 'yup';
+import { z } from 'zod';
 import { Button, Input, Card } from '../../src/components/ui';
 import { useAuthContext } from '../../src/contexts';
 import { PublicRoute } from '../../src/contexts';
-
-interface LoginFormData {
-    username: string;
-    password: string;
-}
+import { zodResolver } from '@hookform/resolvers/zod';
 
 // Validation schema
-const loginSchema = yup.object({
-    username: yup
-        .string()
-        .required('กรุณากรอก Username')
-        .min(3, 'Username ต้องมีอย่างน้อย 3 ตัวอักษร')
-        .trim(),
-    password: yup
-        .string()
-        .required('กรุณากรอกรหัสผ่าน')
-        .min(6, 'รหัสผ่านต้องมีอย่างน้อย 6 ตัวอักษร'),
-});
+const loginSchema = z.object({
+    username: z.string()
+        .min(3, { message: 'Username ต้องมีอย่างน้อย 3 ตัวอักษร' })
+        .nonempty({ message: 'กรุณากรอก Username' }),
+    password: z.string()
+        .min(6, { message: 'รหัสผ่านต้องมีอย่างน้อย 6 ตัวอักษร' })
+        .nonempty({ message: 'กรุณากรอกรหัสผ่าน' }),
+})
+
+type LoginFormData = z.infer<typeof loginSchema>;
 
 export default function LoginPage() {
     const { login, isLoading } = useAuthContext();
@@ -38,7 +32,7 @@ export default function LoginPage() {
         setError,
         clearErrors
     } = useForm<LoginFormData>({
-        resolver: yupResolver(loginSchema),
+        resolver: zodResolver(loginSchema),
         mode: 'onChange', // Validate on change for better UX
         defaultValues: {
             username: '',

@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
-import { Modal, Input, Button, Typography, message } from 'antd';
+import React from 'react';
+import { Modal, InputNumber, Button, Typography, Form, message } from 'antd';
 import { CreditCardOutlined } from '@ant-design/icons';
+import { useThemeColors } from '../../theme/hooks';
 
 const { Title, Text } = Typography;
 
@@ -17,164 +18,153 @@ const PaymentModal: React.FC<PaymentModalProps> = ({
   onClose,
   debtName,
   remainingAmount,
-  onPaymentSubmit
+  onPaymentSubmit,
 }) => {
-  const [paymentAmount, setPaymentAmount] = useState<string>('');
-  const [loading, setLoading] = useState(false);
+  const [form] = Form.useForm();
+  const [loading, setLoading] = React.useState(false);
+  const { text } = useThemeColors();
 
-  const formatCurrency = (amount: number) => {
-    return new Intl.NumberFormat('th-TH').format(amount);
-  };
+  const formatCurrency = (amount: number) => new Intl.NumberFormat('th-TH').format(amount);
 
-  const handlePaymentChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    // Only allow numbers and decimal point
-    if (/^\d*\.?\d*$/.test(value)) {
-      setPaymentAmount(value);
-    }
-  };
-
-  const handleSubmit = async () => {
-    const amount = parseFloat(paymentAmount);
-
-    if (!paymentAmount || amount <= 0) {
-      message.error('กรุณากรอกจำนวนเงินที่ถูกต้อง');
-      return;
-    }
-
-    if (amount > remainingAmount) {
-      message.error('จำนวนเงินที่จ่ายไม่สามารถเกินยอดคงเหลือได้');
-      return;
-    }
-
+  const handleFinish = async (values: { amount: number }) => {
+    const { amount } = values;
     try {
       setLoading(true);
       await onPaymentSubmit(amount);
-      setPaymentAmount('');
-      onClose();
       message.success('ชำระเงินสำเร็จแล้ว!');
-    } catch (error) {
-      console.error('Payment error:', error);
+      form.resetFields();
+      onClose();
+    } catch (err) {
+      console.error(err);
       message.error('เกิดข้อผิดพลาดในการชำระเงิน');
     } finally {
       setLoading(false);
     }
   };
 
-  const handleClose = () => {
-    setPaymentAmount('');
-    onClose();
-  };
-
   return (
     <Modal
       title={
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-          <CreditCardOutlined style={{ fontSize: '20px', color: '#1890ff' }} />
-          <span>ชำระเงิน</span>
+          <CreditCardOutlined style={{ fontSize: 20, color: '#1890ff' }} />
+          <span style={{ color: text.primary }}>ชำระเงิน</span>
         </div>
       }
       open={isOpen}
-      onCancel={handleClose}
-      footer={null}
-      width={480}
-      centered
-      destroyOnClose
-      styles={{
-        body: { padding: '24px' },
-        header: { borderBottom: '1px solid #f0f0f0', marginBottom: '24px' }
+      onCancel={() => {
+        form.resetFields();
+        onClose();
       }}
+      footer={null}
+      centered
+      width={480}
+      destroyOnClose
     >
       <div style={{ textAlign: 'center' }}>
-        {/* Debt Information */}
-        <div style={{ marginBottom: '32px' }}>
-          <Text strong style={{ fontSize: '16px', color: '#595959', display: 'block', marginBottom: '8px' }}>
+        <div style={{ marginBottom: 32 }}>
+          <Text strong style={{ fontSize: 16, color: text.secondary }}>
             หนี้:
           </Text>
-          <Title level={4} style={{ margin: '0 0 16px 0', color: '#262626' }}>
+          <Title level={4} style={{ margin: '4px 0 16px 0', color: text.primary }}>
             {debtName}
           </Title>
 
-          <Text strong style={{ fontSize: '16px', color: '#595959', display: 'block', marginBottom: '8px' }}>
+          <Text strong style={{ fontSize: 16, color: text.secondary }}>
             ยอดคงเหลือ:
           </Text>
-          <Title level={3} style={{ margin: 0, color: '#ff6b6b', fontWeight: 'bold' }}>
+          <Title level={3} style={{ margin: 0, color: '#ff6b6b' }}>
             {formatCurrency(remainingAmount)}฿
           </Title>
         </div>
 
-        {/* Payment Amount Input */}
-        <div style={{ marginBottom: '32px', textAlign: 'left' }}>
-          <Text strong style={{ fontSize: '16px', color: '#262626', display: 'block', marginBottom: '12px' }}>
-            จำนวนที่จะจ่าย:
-          </Text>
-          <Input
-            size="large"
-            placeholder="กรอกจำนวนเงิน"
-            value={paymentAmount}
-            onChange={handlePaymentChange}
-            suffix="฿"
-            style={{
-              fontSize: '18px',
-              textAlign: 'center',
-              fontWeight: 'bold',
-              borderRadius: '8px',
-              border: '2px solid #d9d9d9',
-              padding: '12px 16px'
-            }}
-            onFocus={(e) => {
-              e.target.style.borderColor = '#1890ff';
-              e.target.style.boxShadow = '0 0 0 2px rgba(24, 144, 255, 0.2)';
-            }}
-            onBlur={(e) => {
-              e.target.style.borderColor = '#d9d9d9';
-              e.target.style.boxShadow = 'none';
-            }}
-          />
-          {paymentAmount && parseFloat(paymentAmount) > remainingAmount && (
-            <Text type="danger" style={{ fontSize: '14px', marginTop: '8px', display: 'block' }}>
-              จำนวนเงินไม่สามารถเกินยอดคงเหลือได้
-            </Text>
-          )}
-        </div>
-
-        {/* Payment Summary */}
-        {paymentAmount && parseFloat(paymentAmount) > 0 && parseFloat(paymentAmount) <= remainingAmount && (
-          <div style={{
-            marginBottom: '24px',
-            padding: '16px',
-            backgroundColor: '#f6ffed',
-            border: '1px solid #b7eb8f',
-            borderRadius: '8px'
-          }}>
-            <Text strong style={{ color: '#52c41a', display: 'block', marginBottom: '8px' }}>
-              ยอดคงเหลือหลังชำระ:
-            </Text>
-            <Text style={{ fontSize: '20px', fontWeight: 'bold', color: '#52c41a' }}>
-              {formatCurrency(remainingAmount - parseFloat(paymentAmount))}฿
-            </Text>
-          </div>
-        )}
-
-        {/* Submit Button */}
-        <Button
-          type="primary"
-          size="large"
-          loading={loading}
-          onClick={handleSubmit}
-          disabled={!paymentAmount || parseFloat(paymentAmount) <= 0 || parseFloat(paymentAmount) > remainingAmount}
-          style={{
-            width: '100%',
-            height: '48px',
-            fontSize: '16px',
-            fontWeight: 'bold',
-            borderRadius: '8px',
-            backgroundColor: '#52c41a',
-            borderColor: '#52c41a'
-          }}
+        <Form
+          form={form}
+          layout="vertical"
+          onFinish={handleFinish}
+          initialValues={{ amount: undefined }}
         >
-          {loading ? 'กำลังประมวลผล...' : 'ยืนยันการจ่าย'}
-        </Button>
+          <Form.Item
+            name="amount"
+            label={<Text strong style={{ color: text.primary }}>จำนวนที่จะจ่าย:</Text>}
+            rules={[
+              { required: true, message: 'กรุณากรอกจำนวนเงิน' },
+              {
+                validator: (_, value) => {
+                  if (!value || value <= 0)
+                    return Promise.reject('จำนวนเงินต้องมากกว่า 0');
+                  if (value > remainingAmount)
+                    return Promise.reject('จำนวนเงินไม่สามารถเกินยอดคงเหลือได้');
+                  return Promise.resolve();
+                },
+              },
+            ]}
+          >
+            <InputNumber
+              size="large"
+              min={0}
+              step={10}
+              style={{
+                width: '100%',
+                fontSize: 18,
+                textAlign: 'center',
+                fontWeight: 'bold',
+                borderRadius: 8,
+              }}
+              placeholder="กรอกจำนวนเงิน"
+              addonAfter="฿"
+            />
+          </Form.Item>
+
+          {/* Summary */}
+          {form.getFieldValue('amount') &&
+            form.getFieldValue('amount') > 0 &&
+            form.getFieldValue('amount') <= remainingAmount && (
+              <div
+                style={{
+                  marginBottom: 24,
+                  padding: 16,
+                  backgroundColor: '#f6ffed',
+                  border: '1px solid #b7eb8f',
+                  borderRadius: 8,
+                }}
+              >
+                <Text strong style={{ color: '#52c41a' }}>
+                  ยอดคงเหลือหลังชำระ:
+                </Text>
+                <Text
+                  style={{
+                    display: 'block',
+                    fontSize: 20,
+                    fontWeight: 'bold',
+                    color: '#52c41a',
+                  }}
+                >
+                  {formatCurrency(
+                    remainingAmount - (form.getFieldValue('amount') || 0)
+                  )}
+                  ฿
+                </Text>
+              </div>
+            )}
+
+          <Button
+            type="primary"
+            size="large"
+            htmlType="submit"
+            loading={loading}
+            style={{
+              width: '100%',
+              height: 48,
+              fontSize: 16,
+              fontWeight: 'bold',
+              borderRadius: 8,
+              backgroundColor: '#52c41a',
+              borderColor: '#52c41a',
+            }}
+          >
+            {loading ? 'กำลังประมวลผล...' : 'ยืนยันการจ่าย'}
+          </Button>
+        </Form>
       </div>
     </Modal>
   );

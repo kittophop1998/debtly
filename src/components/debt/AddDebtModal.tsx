@@ -1,18 +1,19 @@
-// Add Debt Modal component
+import { Modal, Input, Button, Select, DatePicker, Form } from 'antd';
+import { useForm } from 'react-hook-form';
+import z from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
 
-import React, { useState } from 'react';
-import { Modal, Input, Button, Select, DatePicker, Typography, message } from 'antd';
-import { PlusOutlined } from '@ant-design/icons';
-import dayjs from 'dayjs';
-
-const { Title, Text } = Typography;
 const { Option } = Select;
 
-interface AddDebtModalProps {
-    isOpen: boolean;
-    onClose: () => void;
-    onSubmit: (debtData: DebtFormData) => void;
-}
+const schema = z.object({
+    name: z.string().min(1, { message: 'ชื่อหนี้มีอย่างน้อย 1 ตัวอักษร' }).nonempty({ message: 'กรุณาใส่ชื่อหนี้' }),
+    creditor: z.string().min(1, { message: 'ชื่อเจ้าหนี้มีอย่างน้อย 1 ตัวอักษร' }).nonempty({ message: 'กรุณาใส่ชื่อเจ้าหนี้' }),
+    totalAmount: z.number().min(0.01, { message: 'ยอดเงินต้องมากกว่า 0' }).refine(val => val > 0, { message: 'กรุณาใส่ยอดเงินที่ถูกต้อง' }),
+    dueDate: z.string().nonempty({ message: 'กรุณาเลือกวันครบกำหนด' }),
+    category: z.string().nonempty({ message: 'กรุณาเลือกหมวดหมู่' }),
+});
+
+type AddDebtFormData = z.infer<typeof schema>;
 
 export interface DebtFormData {
     name: string;
@@ -22,12 +23,10 @@ export interface DebtFormData {
     category: string;
 }
 
-interface FormErrors {
-    name?: string;
-    creditor?: string;
-    totalAmount?: string;
-    dueDate?: string;
-    category?: string;
+interface AddDebtModalProps {
+    isOpen: boolean;
+    onClose: () => void;
+    onSubmit: (debtData: DebtFormData) => void;
 }
 
 const debtCategories = [
@@ -39,273 +38,55 @@ const debtCategories = [
     { value: 'other', label: 'อื่นๆ' },
 ];
 
-const AddDebtModal: React.FC<AddDebtModalProps> = ({
-    isOpen,
-    onClose,
-    onSubmit,
-}) => {
-    const [formData, setFormData] = useState<DebtFormData>({
-        name: '',
-        creditor: '',
-        totalAmount: 0,
-        dueDate: '',
-        category: '',
-    });
+export default function AddDebtModal(props: AddDebtModalProps) {
+    const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<AddDebtFormData>({
+        resolver: zodResolver(schema)
+    })
 
-    const [errors, setErrors] = useState<FormErrors>({});
-    const [isSubmitting, setIsSubmitting] = useState(false);
-
-    const handleInputChange = (field: keyof DebtFormData, value: string | number) => {
-        setFormData(prev => ({
-            ...prev,
-            [field]: value,
-        }));
-
-        // Clear error when user starts typing
-        if (errors[field]) {
-            setErrors(prev => ({
-                ...prev,
-                [field]: undefined,
-            }));
-        }
-    };
-
-    const validateForm = (): boolean => {
-        const newErrors: FormErrors = {};
-
-        if (!formData.name.trim()) {
-            newErrors.name = 'กรุณาใส่ชื่อหนี้';
-        }
-
-        if (!formData.creditor.trim()) {
-            newErrors.creditor = 'กรุณาใส่ชื่อเจ้าหนี้';
-        }
-
-        if (!formData.totalAmount || formData.totalAmount <= 0) {
-            newErrors.totalAmount = 'กรุณาใส่ยอดเงินที่ถูกต้อง';
-        }
-
-        if (!formData.dueDate) {
-            newErrors.dueDate = 'กรุณาเลือกวันครบกำหนด';
-        }
-
-        if (!formData.category) {
-            newErrors.category = 'กรุณาเลือกหมวดหมู่';
-        }
-
-        setErrors(newErrors);
-        return Object.keys(newErrors).length === 0;
-    };
-
-    const handleSubmit = async () => {
-        if (!validateForm()) {
-            return;
-        }
-
-        setIsSubmitting(true);
-
-        try {
-            await onSubmit(formData);
-            message.success('เพิ่มหนี้สำเร็จแล้ว!');
-            handleClose();
-        } catch (error) {
-            console.error('Error submitting debt:', error);
-            message.error('เกิดข้อผิดพลาดในการเพิ่มหนี้');
-        } finally {
-            setIsSubmitting(false);
-        }
-    };
-
-    const handleClose = () => {
-        setFormData({
-            name: '',
-            creditor: '',
-            totalAmount: 0,
-            dueDate: '',
-            category: '',
-        });
-        setErrors({});
-        setIsSubmitting(false);
-        onClose();
-    };
-
-    const formatCurrency = (amount: number) => {
-        return new Intl.NumberFormat('th-TH').format(amount);
+    const onSubmit = async () => {
+        console.log('✅ Submit data:');
+        await new Promise((r) => setTimeout(r, 1000)); // simulate API
     };
 
     return (
         <Modal
-            title={
-                <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                    <PlusOutlined style={{ fontSize: '20px', color: '#1890ff' }} />
-                    <span>เพิ่มหนี้ใหม่</span>
-                </div>
-            }
-            open={isOpen}
-            onCancel={handleClose}
+            title='เพิ่มหนี้ใหม่'
+            open={props.isOpen}
+            onCancel={props.onClose}
             footer={null}
-            width={600}
-            centered
-            destroyOnClose
-            styles={{
-                body: { padding: '24px' },
-                header: { borderBottom: '1px solid #f0f0f0', marginBottom: '24px' }
-            }}
         >
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
-                {/* ชื่อหนี้ */}
-                <div>
-                    <Text strong style={{ fontSize: '16px', color: '#262626', display: 'block', marginBottom: '8px' }}>
-                        ชื่อหนี้ <span style={{ color: '#ff4d4f' }}>*</span>
-                    </Text>
-                    <Input
-                        size="large"
-                        placeholder="เช่น บัตรเครดิต SCB, กู้รถยนต์"
-                        value={formData.name}
-                        onChange={(e) => handleInputChange('name', e.target.value)}
-                        status={errors.name ? 'error' : ''}
-                        style={{ borderRadius: '8px' }}
-                    />
-                    {errors.name && (
-                        <Text type="danger" style={{ fontSize: '14px', marginTop: '4px', display: 'block' }}>
-                            {errors.name}
-                        </Text>
-                    )}
-                </div>
+            <Form layout="vertical" onFinish={handleSubmit(onSubmit)}>
+                <Form.Item label="ชื่อหนี้" validateStatus={errors.name ? 'error' : ''} help={errors.name?.message}>
+                    <Input {...register('name')} placeholder="กรุณาใส่ชื่อหนี้" />
+                </Form.Item>
 
-                {/* เจ้าหนี้ */}
-                <div>
-                    <Text strong style={{ fontSize: '16px', color: '#262626', display: 'block', marginBottom: '8px' }}>
-                        เจ้าหนี้ <span style={{ color: '#ff4d4f' }}>*</span>
-                    </Text>
-                    <Input
-                        size="large"
-                        placeholder="เช่น ธนาคารไทยพาณิชย์, บริษัท ABC"
-                        value={formData.creditor}
-                        onChange={(e) => handleInputChange('creditor', e.target.value)}
-                        status={errors.creditor ? 'error' : ''}
-                        style={{ borderRadius: '8px' }}
-                    />
-                    {errors.creditor && (
-                        <Text type="danger" style={{ fontSize: '14px', marginTop: '4px', display: 'block' }}>
-                            {errors.creditor}
-                        </Text>
-                    )}
-                </div>
+                <Form.Item label="ชื่อเจ้าหนี้" validateStatus={errors.creditor ? 'error' : ''} help={errors.creditor?.message}>
+                    <Input {...register('creditor')} placeholder="กรุณาใส่ชื่อเจ้าหนี้" />
+                </Form.Item>
 
-                {/* ยอดทั้งหมด */}
-                <div>
-                    <Text strong style={{ fontSize: '16px', color: '#262626', display: 'block', marginBottom: '8px' }}>
-                        ยอดทั้งหมด <span style={{ color: '#ff4d4f' }}>*</span>
-                    </Text>
-                    <Input
-                        size="large"
-                        type="number"
-                        placeholder="0"
-                        value={formData.totalAmount || ''}
-                        onChange={(e) => handleInputChange('totalAmount', parseFloat(e.target.value) || 0)}
-                        suffix="฿"
-                        min={0}
-                        step={0.01}
-                        status={errors.totalAmount ? 'error' : ''}
-                        style={{ borderRadius: '8px' }}
-                    />
-                    {errors.totalAmount && (
-                        <Text type="danger" style={{ fontSize: '14px', marginTop: '4px', display: 'block' }}>
-                            {errors.totalAmount}
-                        </Text>
-                    )}
-                    {formData.totalAmount > 0 && (
-                        <Text style={{ fontSize: '14px', marginTop: '4px', display: 'block', color: '#52c41a' }}>
-                            จำนวน: {formatCurrency(formData.totalAmount)} บาท
-                        </Text>
-                    )}
-                </div>
+                <Form.Item label="ยอดเงิน" validateStatus={errors.totalAmount ? 'error' : ''} help={errors.totalAmount?.message}>
+                    <Input type="number" {...register('totalAmount')} placeholder="กรุณาใส่ยอดเงิน" />
+                </Form.Item>
 
-                {/* วันครบกำหนด */}
-                <div>
-                    <Text strong style={{ fontSize: '16px', color: '#262626', display: 'block', marginBottom: '8px' }}>
-                        วันครบกำหนด <span style={{ color: '#ff4d4f' }}>*</span>
-                    </Text>
-                    <DatePicker
-                        size="large"
-                        placeholder="เลือกวันครบกำหนด"
-                        value={formData.dueDate ? dayjs(formData.dueDate) : null}
-                        onChange={(date) => handleInputChange('dueDate', date ? date.format('YYYY-MM-DD') : '')}
-                        disabledDate={(current) => current && current < dayjs().startOf('day')}
-                        format="DD/MM/YYYY"
-                        status={errors.dueDate ? 'error' : ''}
-                        style={{ width: '100%', borderRadius: '8px' }}
-                    />
-                    {errors.dueDate && (
-                        <Text type="danger" style={{ fontSize: '14px', marginTop: '4px', display: 'block' }}>
-                            {errors.dueDate}
-                        </Text>
-                    )}
-                </div>
+                <Form.Item label="วันครบกำหนด" validateStatus={errors.dueDate ? 'error' : ''} help={errors.dueDate?.message}>
+                    <DatePicker {...register('dueDate')} className="w-full" />
+                </Form.Item>
 
-                {/* หมวดหมู่ */}
-                <div>
-                    <Text strong style={{ fontSize: '16px', color: '#262626', display: 'block', marginBottom: '8px' }}>
-                        หมวดหมู่ <span style={{ color: '#ff4d4f' }}>*</span>
-                    </Text>
-                    <Select
-                        size="large"
-                        placeholder="เลือกหมวดหมู่"
-                        value={formData.category || undefined}
-                        onChange={(value) => handleInputChange('category', value)}
-                        status={errors.category ? 'error' : ''}
-                        style={{ width: '100%', borderRadius: '8px' }}
-                    >
-                        {debtCategories.map((category) => (
-                            <Option key={category.value} value={category.value}>
-                                {category.label}
+                <Form.Item label="หมวดหมู่" validateStatus={errors.category ? 'error' : ''} help={errors.category?.message}>
+                    <Select {...register('category')} className="w-full">
+                        {debtCategories.map((cat) => (
+                            <Option key={cat.value} value={cat.value}>
+                                {cat.label}
                             </Option>
                         ))}
                     </Select>
-                    {errors.category && (
-                        <Text type="danger" style={{ fontSize: '14px', marginTop: '4px', display: 'block' }}>
-                            {errors.category}
-                        </Text>
-                    )}
-                </div>
+                </Form.Item>
 
-                {/* ปุ่มบันทึก */}
-                <div style={{ display: 'flex', gap: '16px', marginTop: '32px' }}>
-                    <Button
-                        size="large"
-                        onClick={handleClose}
-                        disabled={isSubmitting}
-                        style={{
-                            flex: 1,
-                            height: '48px',
-                            fontSize: '16px',
-                            borderRadius: '8px'
-                        }}
-                    >
-                        ยกเลิก
-                    </Button>
-                    <Button
-                        type="primary"
-                        size="large"
-                        loading={isSubmitting}
-                        onClick={handleSubmit}
-                        style={{
-                            flex: 1,
-                            height: '48px',
-                            fontSize: '16px',
-                            fontWeight: 'bold',
-                            borderRadius: '8px',
-                            backgroundColor: '#1890ff',
-                            borderColor: '#1890ff'
-                        }}
-                    >
-                        {isSubmitting ? 'กำลังบันทึก...' : 'บันทึก'}
-                    </Button>
-                </div>
-            </div>
+                <Button type="primary" htmlType="submit" loading={isSubmitting}>
+                    เพิ่มหนี้
+                </Button>
+            </Form>
+
         </Modal>
     );
-};
-
-export default AddDebtModal;
+}
