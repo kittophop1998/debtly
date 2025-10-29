@@ -1,2 +1,3 @@
 export { default as Header } from './Header';
-export { default as Navbar } from './Navbar';
+export { PublicRoute } from './PublicRoute';
+export { ProtectedRoute } from './ProtectedRoute';

@@ -21,7 +21,7 @@ import {
   Tooltip
 } from 'recharts';
 import { PlusOutlined, CreditCardOutlined, CarOutlined } from '@ant-design/icons';
-import { ProtectedRoute } from '../../src/contexts';
+import { ProtectedRoute } from '../../src/components/layout';
 import Header from '../../src/components/layout/Header';
 import { useThemeColors, useThemeUtils } from '../../src/theme/hooks';
 import { AddDebtModal, DebtFormData, PaymentModal } from '../../src/components/debt';

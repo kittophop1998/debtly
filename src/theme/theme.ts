@@ -1,5 +1,5 @@
 // Main theme exports
-export { ThemeProvider, useTheme, ThemeToggle, LocaleToggle } from '../contexts/theme';
+export { ThemeProvider, ThemeToggle } from '../../app/providers/ThemeProvider';
 export {
   useThemeColors,
   useTypography,

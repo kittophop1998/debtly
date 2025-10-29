@@ -4,8 +4,9 @@ import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { Button, Input, Card } from '../../src/components/ui';
-import { useAuthContext } from '../../src/contexts';
-import { PublicRoute } from '../../src/contexts';
+import { useAuthContext } from '../../src/hooks';
+import { PublicRoute } from '../../src/components/layout';
+import { ThemeToggle } from '../providers';
 import { zodResolver } from '@hookform/resolvers/zod';
 
 // Validation schema
@@ -66,6 +67,10 @@ export default function LoginPage() {
     return (
         <PublicRoute redirectTo="/dashboard">
             <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-teal-50 via-cyan-50 to-sky-100 px-4">
+                {/* Theme Toggle in top-right corner */}
+                <div className="fixed top-4 right-4 z-10">
+                    <ThemeToggle />
+                </div>
                 <Card
                     variant="bordered"
                     className="w-full max-w-md mx-auto shadow-2xl border-4 border-indigo-200 bg-gradient-to-b from-white to-blue-50"

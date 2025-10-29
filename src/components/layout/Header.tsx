@@ -17,10 +17,10 @@ import {
   LogoutOutlined,
   ArrowLeftOutlined,
 } from '@ant-design/icons'
-import { useAuthContext } from '../../contexts';
 import { ThemeToggle } from '../../theme/theme'
 import { useThemeUtils } from '../../theme/hooks'
 import { LanguageSwitcher } from '../ui'
+import { useAuthContext } from '@/hooks'
 
 const { Title } = Typography
 

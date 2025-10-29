@@ -3,8 +3,8 @@
 import Link from "next/link";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { useAuthContext } from "../src/contexts";
 import { LoadingSpinner } from "../src/components/ui";
+import { useAuthContext } from "../src/hooks";
 
 export default function Home() {
   const { isAuthenticated, isLoading } = useAuthContext();

@@ -1,15 +1,15 @@
 'use client';
 
-import { useTheme } from '../contexts/theme';
 import { colors, typography, spacing, borderRadius, shadows, breakpoints } from './index';
+import { useTheme } from '../../app/providers/ThemeProvider';
 
 // Hook for accessing theme colors
 export const useThemeColors = () => {
-  const { themeMode } = useTheme();
+  const { actualTheme } = useTheme();
   
   return {
     colors,
-    mode: themeMode,
+    mode: actualTheme,
     // Helper functions for theme-aware colors
     primary: colors.primary,
     secondary: colors.secondary,
@@ -20,18 +20,18 @@ export const useThemeColors = () => {
     
     // Current theme colors based on mode
     bg: {
-      base: themeMode === 'dark' ? colors.neutral[900] : colors.neutral[50],
-      container: themeMode === 'dark' ? colors.neutral[800] : '#ffffff',
-      elevated: themeMode === 'dark' ? colors.neutral[800] : '#ffffff',
+      base: actualTheme === 'dark' ? colors.neutral[900] : colors.neutral[50],
+      container: actualTheme === 'dark' ? colors.neutral[800] : '#ffffff',
+      elevated: actualTheme === 'dark' ? colors.neutral[800] : '#ffffff',
     },
     text: {
-      primary: themeMode === 'dark' ? colors.neutral[100] : colors.neutral[900],
-      secondary: themeMode === 'dark' ? colors.neutral[300] : colors.neutral[600],
-      tertiary: themeMode === 'dark' ? colors.neutral[500] : colors.neutral[400],
+      primary: actualTheme === 'dark' ? colors.neutral[100] : colors.neutral[900],
+      secondary: actualTheme === 'dark' ? colors.neutral[300] : colors.neutral[600],
+      tertiary: actualTheme === 'dark' ? colors.neutral[500] : colors.neutral[400],
     },
     border: {
-      primary: themeMode === 'dark' ? colors.neutral[700] : colors.neutral[200],
-      secondary: themeMode === 'dark' ? colors.neutral[800] : colors.neutral[100],
+      primary: actualTheme === 'dark' ? colors.neutral[700] : colors.neutral[200],
+      secondary: actualTheme === 'dark' ? colors.neutral[800] : colors.neutral[100],
     },
   };
 };
@@ -243,18 +243,19 @@ export const generateCSSVariables = (themeMode: 'light' | 'dark') => {
 
 // Hook to get all theme utilities
 export const useThemeUtils = () => {
-  const { themeMode } = useTheme();
+  const { themeMode, actualTheme } = useTheme();
   
   return {
     themeMode,
+    actualTheme,
     colors: useThemeColors(),
     typography: useTypography(),
     spacing: useSpacing(),
     borderRadius: useBorderRadius(),
     shadows: useShadows(),
     breakpoints: useBreakpoints(),
-    cssVariables: generateCSSVariables(themeMode),
-    getContrastColor: (bg: string) => getContrastColor(bg, themeMode),
+    cssVariables: generateCSSVariables(actualTheme),
+    getContrastColor: (bg: string) => getContrastColor(bg, actualTheme),
     createStyles: createThemeStyles,
   };
 };

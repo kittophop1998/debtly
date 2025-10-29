@@ -34,8 +34,8 @@ import {
     EnvironmentOutlined,
 } from '@ant-design/icons';
 import type { UploadProps } from 'antd';
-import { useAuthContext } from '../../../src/contexts';
-import { ProtectedRoute } from '../../../src/contexts';
+import { useAuthContext } from '../../../src/hooks';
+import { ProtectedRoute } from '../../../src/components/layout';
 import { useThemeUtils } from '../../../src/theme/hooks';
 import Header from '../../../src/components/layout/Header';
 import { useTranslation } from 'react-i18next';
@@ -52,7 +52,7 @@ const ProfilePage: React.FC = () => {
     const { t } = useTranslation('common');
 
     const [profileData, setProfileData] = useState({
-        name: user?.name || '',
+        name: user?.displayName || '',
         email: user?.email || '',
         username: user?.username || '',
         bio: '',

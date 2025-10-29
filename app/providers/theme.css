@@ -1,0 +1,108 @@
+/* Theme Provider Styles */
+.theme-provider {
+  min-height: 100vh;
+  transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+}
+
+/* Theme Toggle Component */
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border: 1px solid;
+  border-radius: 6px;
+  background: transparent;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.2s ease-in-out;
+  border-color: rgb(203, 213, 225);
+  color: rgb(51, 65, 85);
+}
+
+.theme-toggle:hover {
+  border-color: rgb(148, 163, 184);
+  background-color: rgb(248, 250, 252);
+}
+
+.theme-toggle-icon {
+  font-size: 16px;
+  line-height: 1;
+}
+
+.theme-toggle-label {
+  font-size: 13px;
+  font-weight: 500;
+}
+
+/* Dark theme styles */
+.dark .theme-toggle {
+  border-color: rgb(71, 85, 105);
+  color: rgb(203, 213, 225);
+}
+
+.dark .theme-toggle:hover {
+  border-color: rgb(100, 116, 139);
+  background-color: rgb(30, 41, 59);
+}
+
+/* Global CSS variables for themes */
+:root {
+  --color-primary-50: #f0fdfa;
+  --color-primary-100: #ccfbf1;
+  --color-primary-200: #99f6e4;
+  --color-primary-300: #5eead4;
+  --color-primary-400: #2dd4bf;
+  --color-primary-500: #14b8a6;
+  --color-primary-600: #0d9488;
+  --color-primary-700: #0f766e;
+  --color-primary-800: #115e59;
+  --color-primary-900: #134e4a;
+
+  --color-neutral-50: #f8fafc;
+  --color-neutral-100: #f1f5f9;
+  --color-neutral-200: #e2e8f0;
+  --color-neutral-300: #cbd5e1;
+  --color-neutral-400: #94a3b8;
+  --color-neutral-500: #64748b;
+  --color-neutral-600: #475569;
+  --color-neutral-700: #334155;
+  --color-neutral-800: #1e293b;
+  --color-neutral-900: #0f172a;
+}
+
+/* Light theme (default) */
+:root {
+  --bg-base: var(--color-neutral-50);
+  --bg-container: #ffffff;
+  --bg-elevated: #ffffff;
+  --text-primary: var(--color-neutral-900);
+  --text-secondary: var(--color-neutral-600);
+  --text-tertiary: var(--color-neutral-400);
+  --border-primary: var(--color-neutral-200);
+  --border-secondary: var(--color-neutral-100);
+}
+
+/* Dark theme overrides */
+.dark:root,
+[data-theme="dark"] {
+  --bg-base: var(--color-neutral-900);
+  --bg-container: var(--color-neutral-800);
+  --bg-elevated: var(--color-neutral-700);
+  --text-primary: var(--color-neutral-100);
+  --text-secondary: var(--color-neutral-300);
+  --text-tertiary: var(--color-neutral-500);
+  --border-primary: var(--color-neutral-700);
+  --border-secondary: var(--color-neutral-800);
+}
+
+/* Utility classes for theme-aware styling */
+.bg-base { background-color: var(--bg-base); }
+.bg-container { background-color: var(--bg-container); }
+.bg-elevated { background-color: var(--bg-elevated); }
+.text-primary { color: var(--text-primary); }
+.text-secondary { color: var(--text-secondary); }
+.text-tertiary { color: var(--text-tertiary); }
+.border-primary { border-color: var(--border-primary); }
+.border-secondary { border-color: var(--border-secondary); }
