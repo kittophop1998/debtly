@@ -1,11 +1,9 @@
 "use client";
-// React Context-based store for global app state
 
 import React, { createContext, useContext, useReducer, useEffect } from 'react';
-import { User } from '@/types';
 import { AuthState } from '@/core/store';
+import { User } from '@/features/auth';
 
-// Types
 interface Notification {
   id: string;
   type: 'success' | 'error' | 'warning' | 'info';
@@ -52,7 +50,6 @@ interface AppContextType {
   clearNotifications: () => void;
 }
 
-// Initial state
 const initialState: AppState = {
   auth: {
     user: null,
@@ -66,7 +63,6 @@ const initialState: AppState = {
   notifications: []
 };
 
-// Reducer
 const appReducer = (state: AppState, action: AppAction): AppState => {
   switch (action.type) {
     case 'SET_AUTH':
@@ -136,10 +132,8 @@ const appReducer = (state: AppState, action: AppAction): AppState => {
   }
 };
 
-// Context
 const AppContext = createContext<AppContextType | undefined>(undefined);
 
-// Provider component
 export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [state, dispatch] = useReducer(appReducer, initialState);
 
@@ -200,7 +194,6 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
 };
 
-// Custom hook to use the context
 export const useAppStore = () => {
   const context = useContext(AppContext);
   if (context === undefined) {
@@ -209,7 +202,6 @@ export const useAppStore = () => {
   return context;
 };
 
-// Specific hooks for common use cases
 export const useAuthState = () => {
   const { state } = useAppStore();
   return state.auth;

@@ -9,5 +9,8 @@ export { useAuth } from './hooks/useAuth';
 // Services
 export { AuthService } from './services/auth';
 
-// Types (if needed)
-// export type { AuthUser, LoginCredentials } from './types';
+export type {
+    LoginCredentials,
+    RegisterData,
+    User
+} from './types/auth';

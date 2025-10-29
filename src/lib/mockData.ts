@@ -1,6 +1,4 @@
-// Mock data for development and testing
-
-import { Activity, ActivityType, ActivityStatus, User } from '../types';
+import { User } from "@/features/auth";
 
 // Mock users
 export const mockUsers: User[] = [
@@ -36,168 +34,14 @@ export const mockUsers: User[] = [
   },
 ];
 
-// Mock activities
-export const mockActivities: Activity[] = [
-  {
-    id: '1',
-    title: 'Morning Hike at Doi Suthep',
-    description: 'Join us for a refreshing morning hike to watch the sunrise at Doi Suthep. We\'ll start early and enjoy breakfast at the temple.',
-    type: ActivityType.OUTDOOR,
-    location: {
-      name: 'Doi Suthep Temple',
-      address: 'Suthep, Mueang Chiang Mai District, Chiang Mai 50200',
-      latitude: 18.8048,
-      longitude: 98.9216,
-    },
-    dateTime: '2024-11-15T06:00:00Z',
-    duration: 240, // 4 hours
-    maxParticipants: 8,
-    currentParticipants: 5,
-    createdBy: '1',
-    creatorDetails: mockUsers[0],
-    participants: [mockUsers[0], mockUsers[1], mockUsers[2]],
-    tags: ['hiking', 'nature', 'sunrise', 'temple'],
-    status: ActivityStatus.ACTIVE,
-    chatRoomId: 'chat_1',
-    imageUrl: 'https://images.unsplash.com/photo-1551632811-561732d1e306?w=500&h=300&fit=crop&crop=center',
-    createdAt: '2024-10-20T00:00:00Z',
-    updatedAt: '2024-10-20T00:00:00Z',
-  },
-  {
-    id: '2',
-    title: 'Thai Cooking Class',
-    description: 'Learn to cook authentic Thai dishes with local ingredients. We\'ll prepare Pad Thai, Green Curry, and Mango Sticky Rice.',
-    type: ActivityType.FOOD,
-    location: {
-      name: 'Bangkok Cooking School',
-      address: '123 Sukhumvit Road, Khlong Toei, Bangkok 10110',
-      latitude: 13.7363,
-      longitude: 100.5644,
-    },
-    dateTime: '2024-11-16T10:00:00Z',
-    duration: 180, // 3 hours
-    maxParticipants: 12,
-    currentParticipants: 8,
-    createdBy: '2',
-    creatorDetails: mockUsers[1],
-    participants: [mockUsers[1], mockUsers[0]],
-    tags: ['cooking', 'thai food', 'culture', 'hands-on'],
-    status: ActivityStatus.ACTIVE,
-    chatRoomId: 'chat_2',
-    imageUrl: 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=500&h=300&fit=crop&crop=center',
-    createdAt: '2024-10-21T00:00:00Z',
-    updatedAt: '2024-10-21T00:00:00Z',
-  },
-  {
-    id: '3',
-    title: 'Beach Volleyball Tournament',
-    description: 'Friendly beach volleyball tournament at Patong Beach. All skill levels welcome! Prizes for winners and lots of fun.',
-    type: ActivityType.SPORT,
-    location: {
-      name: 'Patong Beach',
-      address: 'Patong, Kathu District, Phuket 83150',
-      latitude: 7.8949,
-      longitude: 98.2967,
-    },
-    dateTime: '2024-11-17T16:00:00Z',
-    duration: 120, // 2 hours
-    maxParticipants: 16,
-    currentParticipants: 12,
-    createdBy: '3',
-    creatorDetails: mockUsers[2],
-    participants: [mockUsers[2], mockUsers[0], mockUsers[1]],
-    tags: ['volleyball', 'beach', 'tournament', 'sport'],
-    status: ActivityStatus.ACTIVE,
-    chatRoomId: 'chat_3',
-    imageUrl: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=500&h=300&fit=crop&crop=center',
-    createdAt: '2024-10-22T00:00:00Z',
-    updatedAt: '2024-10-22T00:00:00Z',
-  },
-  {
-    id: '4',
-    title: 'Temple Tour & Meditation',
-    description: 'Explore ancient Buddhist temples and join a peaceful meditation session. Learn about Thai Buddhist culture and history.',
-    type: ActivityType.CULTURAL,
-    location: {
-      name: 'Wat Pho Temple',
-      address: '2 Sanamchai Road, Grand Palace Subdistrict, Phra Nakhon District, Bangkok 10200',
-      latitude: 13.7468,
-      longitude: 100.4931,
-    },
-    dateTime: '2024-11-18T08:00:00Z',
-    duration: 240, // 4 hours
-    maxParticipants: 15,
-    currentParticipants: 10,
-    createdBy: '1',
-    creatorDetails: mockUsers[0],
-    participants: [mockUsers[0], mockUsers[1]],
-    tags: ['temple', 'meditation', 'culture', 'buddhism'],
-    status: ActivityStatus.ACTIVE,
-    chatRoomId: 'chat_4',
-    imageUrl: 'https://images.unsplash.com/photo-1563492065-d25a89a5a191?w=500&h=300&fit=crop&crop=center',
-    createdAt: '2024-10-23T00:00:00Z',
-    updatedAt: '2024-10-23T00:00:00Z',
-  },
-  {
-    id: '5',
-    title: 'Rooftop Cinema Night',
-    description: 'Watch classic movies under the stars on a beautiful rooftop terrace. Popcorn and drinks included!',
-    type: ActivityType.ENTERTAINMENT,
-    location: {
-      name: 'Sky Bar Bangkok',
-      address: '1055 Silom Road, Silom, Bang Rak, Bangkok 10500',
-      latitude: 13.7244,
-      longitude: 100.5344,
-    },
-    dateTime: '2024-11-19T19:00:00Z',
-    duration: 180, // 3 hours
-    maxParticipants: 20,
-    currentParticipants: 15,
-    createdBy: '2',
-    creatorDetails: mockUsers[1],
-    participants: [mockUsers[1], mockUsers[2]],
-    tags: ['movies', 'rooftop', 'night', 'entertainment'],
-    status: ActivityStatus.ACTIVE,
-    chatRoomId: 'chat_5',
-    imageUrl: 'https://images.unsplash.com/photo-1489599394838-0566023eab8d?w=500&h=300&fit=crop&crop=center',
-    createdAt: '2024-10-24T00:00:00Z',
-    updatedAt: '2024-10-24T00:00:00Z',
-  },
-  {
-    id: '6',
-    title: 'Island Hopping Adventure',
-    description: 'Full day island hopping tour visiting the most beautiful islands around Krabi. Snorkeling, swimming, and lunch included.',
-    type: ActivityType.TRAVEL,
-    location: {
-      name: 'Railay Beach',
-      address: 'Railay Beach, Mueang Krabi District, Krabi 81000',
-      latitude: 8.0118,
-      longitude: 98.8407,
-    },
-    dateTime: '2024-11-20T08:00:00Z',
-    duration: 480, // 8 hours
-    maxParticipants: 12,
-    currentParticipants: 12,
-    createdBy: '3',
-    creatorDetails: mockUsers[2],
-    participants: [mockUsers[2], mockUsers[0], mockUsers[1]],
-    tags: ['island', 'snorkeling', 'boat', 'adventure'],
-    status: ActivityStatus.FULL,
-    chatRoomId: 'chat_6',
-    imageUrl: 'https://images.unsplash.com/photo-1544551763-77ef2d0cfc6c?w=500&h=300&fit=crop&crop=center',
-    createdAt: '2024-10-25T00:00:00Z',
-    updatedAt: '2024-10-25T00:00:00Z',
-  },
-];
-
 // Mock API responses
 export const mockApiResponse = {
   success: true,
-  data: mockActivities,
+  data: mockUsers,
   pagination: {
     page: 1,
     limit: 12,
-    total: mockActivities.length,
+    total: mockUsers.length,
     totalPages: 1,
   }
 };

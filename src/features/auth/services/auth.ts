@@ -1,6 +1,7 @@
 // Authentication Service
 
-import { ApiResponse, LoginCredentials, RegisterData, User } from '@/types';
+import { ApiResponse } from '@/types';
+import { LoginCredentials, RegisterData, User } from '@/features/auth';
 import { AuthState } from '@/core/store';
 import { BaseApiService } from '@/lib/api';
 import { API_CONFIG } from '@/lib/config';
